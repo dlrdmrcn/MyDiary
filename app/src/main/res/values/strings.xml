@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">MyDiary</string>
+
     <string name="splash_text">My Diary</string>
     <string name="splash_logo_contentDescription">Uygulamanın Logosu</string>
+
+    <string name="username_or_email">Kullanıcı Adı ya da E-mail</string>
+    <string name="enter_password">Şifre</string>
+    <string name="forgot_password">Şifrenizi mi unuttunuz?</string>
+    <string name="login_whale_contentDescription">Balina Kuyruğu </string>
+    <string name="enter">Giriş</string>
+    <string name="back">Geri</string>
+
+
+
 </resources>

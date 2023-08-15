@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="1080dp"
+    android:height="2220dp"
+    android:viewportWidth="1080"
+    android:viewportHeight="2220"
+    tools:ignore="VectorRaster">
+    <group>
+        <path
+            android:fillColor="@color/main_background"
+            android:pathData="M0 0H1080V2220H0z"/>
+        <path
+            android:fillColor="@color/main_background_ellipse"
+            android:pathData="M0 1814A406 406 0 1 0 0 2626 406 406 0 1 0 0 1814z"/>
+        <path
+            android:fillColor="@color/main_background_ellipse"
+            android:pathData="M1080-406A406 406 0 1 0 1080 406 406 406 0 1 0 1080-406z"/>
+    </group>
+</vector>

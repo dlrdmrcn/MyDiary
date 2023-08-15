@@ -2,5 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="splash_background">#49467E</color>
+
+    <color name="main_color">#49467E</color>
+    <color name="main_background">#9190A1</color>
+    <color name="main_background_ellipse">#8549467E</color>
+
+
 </resources>
