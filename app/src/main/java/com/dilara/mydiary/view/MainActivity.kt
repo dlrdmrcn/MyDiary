@@ -1,7 +1,8 @@
-package com.dilara.mydiary
+package com.dilara.mydiary.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dilara.mydiary.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
