@@ -14,15 +14,16 @@
     <string name="login">Giriş Yap</string>
     <string name="sign_up">Üye Ol</string>
     <string name="continue_without_login">Giriş Yapmadan Devam Et</string>
-    <string name="avatar_image">Avatar Resmi</string>
+
+    <string name="avatar_image_contentDescription">Avatar Resmi</string>
     <string name="e_mail">E-Mail</string>
     <string name="name_surname">Ad Soyad</string>
     <string name="user_name">Kullanıcı Adı</string>
     <string name="password">Şifre</string>
     <string name="repeat_password">Şifre Tekrarı</string>
     <string name="have_an_account">Zaten bir hesabınız mı var?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="warning_blank">*Alanlar boş bırakılamaz.</string>
+    <string name="warning_match">*Şifreler uyuşmuyor.</string>
+    <string name="password_rule">*Şifre en az 6 karakter olmalıdır.</string>
 
 </resources>
