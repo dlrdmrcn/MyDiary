@@ -4,7 +4,7 @@
     <string name="splash_text">My Diary</string>
     <string name="splash_logo_contentDescription">Uygulamanın Logosu</string>
 
-    <string name="username_or_email">Kullanıcı Adı ya da E-mail</string>
+    <string name="username_or_email">E-mail</string>
     <string name="enter_password">Şifre</string>
     <string name="forgot_password">Şifrenizi mi unuttunuz?</string>
     <string name="login_whale_contentDescription">Balina Kuyruğu </string>
@@ -22,8 +22,12 @@
     <string name="password">Şifre</string>
     <string name="repeat_password">Şifre Tekrarı</string>
     <string name="have_an_account">Zaten bir hesabınız mı var?</string>
-    <string name="warning_blank">*Alanlar boş bırakılamaz.</string>
-    <string name="warning_match">*Şifreler uyuşmuyor.</string>
-    <string name="password_rule">*Şifre en az 6 karakter olmalıdır.</string>
+
+    <string name="login_fragment_email_warning">Lütfen geçerli bir email adresi giriniz</string>
+    <string name="login_fragment_password_warning">Lütfen şifre giriniz.</string>
+    <string name="signup_fragment_email_warning">Lütfen geçerli bir email adresi giriniz.</string>
+    <string name="signup_fragment_password_warning">Şifreniz minimum 6 karakter olmalı, en az 1 adet harf ve en az 1 adet rakam bulundurmalıdır.</string>
+    <string name="signup_fragment_repeat_warning">Şifreler uyuşmuyor.</string>
+    <string name="login_fragment_onfailure_warning">E-mail ya da şifre hatalı.</string>
 
 </resources>
