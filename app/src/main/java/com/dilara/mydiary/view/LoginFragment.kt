@@ -1,20 +1,39 @@
 package com.dilara.mydiary.view
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.Navigation
+import com.dilara.mydiary.R
 import com.dilara.mydiary.databinding.FragmentLoginBinding
+import com.dilara.mydiary.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private var binding: FragmentLoginBinding?=null
+    private var binding: FragmentLoginBinding? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val viewModel: LoginViewModel by viewModels {
+        SavedStateViewModelFactory(this.activity?.application, this)
     }
+
+    val emailRegexPattern = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,8 +41,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val view = binding?.root
-        return view
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,6 +50,50 @@ class LoginFragment : Fragment() {
         binding?.back?.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToLoginOptionsFragment()
             Navigation.findNavController(it).navigate(action)
+        }
+
+        binding?.enter?.setOnClickListener {
+            if (isValid()) {
+                signInClicked(it)
+            }
+        }
+    }
+
+    private fun isValid(): Boolean {
+        binding?.emailLayout?.isErrorEnabled = false
+        if (!emailRegexPattern.matcher(binding?.emailText?.text.toString()).matches()) {
+            binding?.emailLayout?.error = getString(R.string.login_fragment_email_warning)
+            binding?.emailLayout?.isErrorEnabled = true
+            return false
+        }
+        return true
+    }
+
+    private fun signInClicked(view: View) {
+        val email = binding?.emailText?.text.toString()
+        val password = binding?.passwordText?.text.toString()
+        binding?.emailLayout?.isErrorEnabled = false
+        binding?.passwordLayout?.isErrorEnabled = false
+
+        if (email == "" || password == "") {
+            binding?.emailLayout?.isErrorEnabled = true
+            binding?.passwordLayout?.isErrorEnabled = true
+            binding?.passwordLayout?.error = getString(R.string.login_fragment_password_warning)
+        } else {
+            viewModel.login(
+                email,
+                password,
+                onSuccess = {
+                    val intent = Intent(activity, MainActivity::class.java)
+                    startActivity(intent)
+                },
+                onFailure = {
+                    binding?.emailLayout?.isErrorEnabled = true
+                    binding?.passwordLayout?.error = getString(R.string.login_fragment_onfailure_warning)
+                    binding?.passwordLayout?.isErrorEnabled = true
+                    Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            )
         }
     }
 
