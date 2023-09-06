@@ -26,7 +26,7 @@ class LoginOptionsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (viewModel.activeUser()){
-            val intent = Intent(activity, MainActivity::class.java)
+            val intent = Intent(activity, HomeActivity::class.java)
             startActivity(intent)
         }
     }
@@ -54,7 +54,7 @@ class LoginOptionsFragment : Fragment() {
         }
 
         binding?.continueWithoutLogin?.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
+            val intent = Intent(activity, HomeActivity::class.java)
             startActivity(intent)
         }
     }

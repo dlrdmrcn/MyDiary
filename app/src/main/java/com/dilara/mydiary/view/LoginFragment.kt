@@ -84,7 +84,7 @@ class LoginFragment : Fragment() {
                 email,
                 password,
                 onSuccess = {
-                    val intent = Intent(activity, MainActivity::class.java)
+                    val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                 },
                 onFailure = {
