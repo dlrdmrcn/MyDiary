@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".view.HomeFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/number_diary_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="50dp"
+        app:cardBackgroundColor="@color/home_fragment_item_background"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp">
+
+            <TextView
+                android:id="@+id/diary_number_textView"
+                style="@style/mainTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical"
+                android:text="@string/number_of_diary" />
+
+            <TextView
+                android:id="@+id/total_number_diary"
+                style="@style/mainTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/diary_number_textView"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                tools:text="24" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/moods_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/home_fragment_item_background"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/number_diary_cardView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp">
+
+            <TextView
+                android:id="@+id/moods_textView"
+                style="@style/mainTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical"
+                android:text="@string/my_moods"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/veryhappy_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_veryhappy_contentDescription"
+                    app:srcCompat="@drawable/emoji_veryhappy" />
+
+                <TextView
+                    android:id="@+id/number_mood_veryhappy"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/happy_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/expressionless_linearLayout"
+                app:layout_constraintStart_toEndOf="@id/veryhappy_linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_happy_contentDescription"
+                    app:srcCompat="@drawable/emoji_happy" />
+
+                <TextView
+                    android:id="@+id/number_mood_happy"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="6" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/expressionless_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/sad_linearLayout"
+                app:layout_constraintStart_toEndOf="@+id/happy_linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_expressionless_contentDescription"
+                    app:srcCompat="@drawable/emoji_expressionless" />
+
+                <TextView
+                    android:id="@+id/number_mood_expressionless"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sad_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/cry_linearLayout"
+                app:layout_constraintStart_toEndOf="@+id/expressionless_linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_sad_contentDescription"
+                    app:srcCompat="@drawable/emoji_sad" />
+
+                <TextView
+                    android:id="@+id/number_mood_sad"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="5" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cry_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/angry_linearLayout"
+                app:layout_constraintStart_toEndOf="@+id/sad_linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_cry_contentDescription"
+                    app:srcCompat="@drawable/emoji_cry" />
+
+                <TextView
+                    android:id="@+id/number_mood_cry"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/angry_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/cool_linearLayout"
+                app:layout_constraintStart_toEndOf="@+id/cry_linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_angry_contentDescription"
+                    app:srcCompat="@drawable/emoji_angry" />
+
+                <TextView
+                    android:id="@+id/number_mood_angry"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cool_linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/moods_textView"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/mood_cool_contentDescription"
+                    app:srcCompat="@drawable/emoji_cool" />
+
+                <TextView
+                    android:id="@+id/number_mood_cool"
+                    style="@style/numberOfMoodsTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="3" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moods_cardView">
+
+        <TextView
+            style="@style/mainTextStyle"
+            android:text="@string/my_diaries"
+            android:layout_margin="15dp"
+            android:textAlignment="textStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_diaries_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

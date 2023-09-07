@@ -30,4 +30,19 @@
     <string name="signup_fragment_repeat_warning">Şifreler uyuşmuyor.</string>
     <string name="login_fragment_onfailure_warning">E-mail ya da şifre hatalı.</string>
 
+    <string name="number_of_diary">Günlük Sayım</string>
+    <string name="my_moods">Ruh hallerim</string>
+
+    <string name="mood_veryhappy_contentDescription">Çok mutlu hissediyor</string>
+    <string name="mood_happy_contentDescription">Mutlu hissediyor</string>
+    <string name="mood_angry_contentDescription">Sinirli hissediyor</string>
+    <string name="mood_cool_contentDescription">Havalı hissediyor</string>
+    <string name="mood_cry_contentDescription">Ağlamaklı hissediyor</string>
+    <string name="mood_expressionless_contentDescription">İfadesiz hissediyor</string>
+    <string name="mood_sad_contentDescription">Üzgün hissediyor</string>
+    <string name="my_diaries">Günlüklerim</string>
+    <string name="date_text_text">08.01.2023</string>
+    <string name="delete_button_contentDescription">Günlüğü sil</string>
+
+
 </resources>

@@ -8,6 +8,7 @@
     <color name="main_background">#9190A1</color>
     <color name="main_background_ellipse">#8549467E</color>
     <color name="transparent">#00000000</color>
+    <color name="home_fragment_item_background">#353A48</color>
 
 
 </resources>
