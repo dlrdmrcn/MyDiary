@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.dilara.mydiary.view.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_shareFragment"
+            app:destination="@id/shareFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_exportFragment"
+            app:destination="@id/exportFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_donateFragment"
+            app:destination="@id/donateFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rateFragment"
+            app:destination="@id/rateFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_importFragment"
+            app:destination="@id/importFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rateFragment"
+        android:name="com.dilara.mydiary.view.RateFragment"
+        android:label="fragment_rate"
+        tools:layout="@layout/fragment_rate" />
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="com.dilara.mydiary.view.ShareFragment"
+        android:label="fragment_share"
+        tools:layout="@layout/fragment_share" />
+    <fragment
+        android:id="@+id/donateFragment"
+        android:name="com.dilara.mydiary.view.DonateFragment"
+        android:label="fragment_donate"
+        tools:layout="@layout/fragment_donate" />
+    <fragment
+        android:id="@+id/exportFragment"
+        android:name="com.dilara.mydiary.view.ExportFragment"
+        android:label="fragment_export"
+        tools:layout="@layout/fragment_export" />
+    <fragment
+        android:id="@+id/importFragment"
+        android:name="com.dilara.mydiary.view.ImportFragment"
+        android:label="fragment_import"
+        tools:layout="@layout/fragment_import" />
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.dilara.mydiary.view.PrivacyPolicyFragment"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+</navigation>
