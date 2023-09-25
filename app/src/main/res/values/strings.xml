@@ -43,6 +43,14 @@
     <string name="my_diaries">Günlüklerim</string>
     <string name="date_text_text">08.01.2023</string>
     <string name="delete_button_contentDescription">Günlüğü sil</string>
+    <string name="export">Dışa Aktar</string>
+    <string name="drawer_import">İçe Aktar</string>
+    <string name="donate">Bağış Yap</string>
+    <string name="rate_us">Bizi Değerlendirin</string>
+    <string name="share_app">Uygulamayı Paylaş</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="logout">Çıkış Yap</string>
 
-
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn= "navigation_view">
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_export"
+            android:title="@string/export"/>
+        <item
+            android:id="@+id/drawer_import"
+            android:title="@string/drawer_import"/>
+        <item
+            android:id="@+id/drawer_donate"
+            android:title="@string/donate"/>
+        <item
+            android:id="@+id/drawer_rate"
+            android:title="@string/rate_us"/>
+        <item
+            android:id="@+id/drawer_share"
+            android:title="@string/share_app"/>
+        <item
+            android:id="@+id/drawer_privacy_policy"
+            android:title="@string/privacy_policy"/>
+    </group>
+
+    <item
+        android:title="">
+
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:title="@string/logout"
+                android:icon="@drawable/icon_logout"/>
+        </menu>
+    </item>
+</menu>
