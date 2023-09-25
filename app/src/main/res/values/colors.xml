@@ -10,4 +10,7 @@
     <color name="transparent">#00000000</color>
     <color name="home_fragment_item_background">#353A48</color>
     <color name="nav_header">#5046437A</color>
+
+    <color name="lilac">#D0BCFF</color>
+    <color name="date_background">#141218</color>
 </resources>
