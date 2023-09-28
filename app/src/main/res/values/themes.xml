@@ -1,8 +1,19 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources >
     <style name="Base.Theme.MyDiary" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/main_color</item>
     </style>
 
     <style name="Theme.MyDiary" parent="Base.Theme.MyDiary" />
+
+    <style name="DatePickers" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/date_background</item>
+        <item name="colorControlActivated">@color/lilac</item>
+        <item name="android:selectableItemBackgroundBorderless">@color/date_background</item>
+        <item name="colorControlHighlight">@color/lilac</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorSecondaryInverse">@color/white</item>
+    </style>
+
 </resources>

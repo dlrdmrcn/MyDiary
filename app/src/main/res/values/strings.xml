@@ -61,5 +61,10 @@
     <string name="title">Başlık</string>
 
     <string name="today">Bugün</string>
+    <string name="change_password">Şifreni Değiştir</string>
+    <string name="email_example">email.email@md.com</string>
+    <string name="my_photos">Fotoğraflarım</string>
+    <string name="my_locations">Konumlarım</string>
+    <string name="change_theme">Temayı Değiştir</string>
 
 </resources>

@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/main_background"
     tools:context=".view.CalendarFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/today_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:hint="@string/today"
+        android:textColorHint="@color/white"
+        app:endIconDrawable="@drawable/icon_calendar_diary"
+        app:endIconMode="custom"
+        app:endIconTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/today_style">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/today_date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/frame_background"
+            android:alpha="0.8"
+            android:clickable="false"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:focusableInTouchMode="false"
+            android:text="@string/date_example"
+
+            android:textColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <DatePicker
+        android:id="@+id/date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="50sp"
-        android:text="Calendar Fragment" />
+        android:alpha="0.8"
+        android:background="@drawable/date_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:datePickerMode="calendar"
+        android:spinnersShown="true"
+        android:theme="@style/DatePickers"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/today_date_layout" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
