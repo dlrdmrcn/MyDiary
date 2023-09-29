@@ -67,4 +67,10 @@
     <string name="my_locations">Konumlarım</string>
     <string name="change_theme">Temayı Değiştir</string>
 
+    <string name="add_photo_contentDescription">Fotoğraf ekleyin</string>
+    <string name="go_to_diary">Günlüğe Git</string>
+    <string name="close_photo_contentDescription">Fotoğrafı kapatın</string>
+    <string name="delete_photo_contentDescription">Fotoğrafı silin</string>
+    <string name="selected_photo_contentDescription">Seçilen fotoğraf</string>
+
 </resources>
