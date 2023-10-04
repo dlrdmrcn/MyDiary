@@ -53,7 +53,7 @@ class LoginFragment : BaseFragment() {
 
         binding?.enter?.setOnClickListener {
             if (isValid()) {
-                signInClicked(it)
+                signInClicked()
             }
         }
     }
@@ -68,7 +68,7 @@ class LoginFragment : BaseFragment() {
         return true
     }
 
-    private fun signInClicked(view: View) {
+    private fun signInClicked() {
         val email = binding?.emailText?.text.toString()
         val password = binding?.passwordText?.text.toString()
         binding?.emailLayout?.isErrorEnabled = false
