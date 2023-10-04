@@ -6,18 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.Navigation
 import com.dilara.mydiary.R
+import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentLoginBinding
 import com.dilara.mydiary.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
     private var binding: FragmentLoginBinding? = null
 
@@ -89,7 +89,8 @@ class LoginFragment : Fragment() {
                 },
                 onFailure = {
                     binding?.emailLayout?.isErrorEnabled = true
-                    binding?.passwordLayout?.error = getString(R.string.login_fragment_onfailure_warning)
+                    binding?.passwordLayout?.error =
+                        getString(R.string.login_fragment_onfailure_warning)
                     binding?.passwordLayout?.isErrorEnabled = true
                     Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
