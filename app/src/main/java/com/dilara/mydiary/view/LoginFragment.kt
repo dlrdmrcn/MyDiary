@@ -13,10 +13,9 @@ import com.dilara.mydiary.R
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentLoginBinding
 import com.dilara.mydiary.viewmodel.LoginViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
-@AndroidEntryPoint
+
 class LoginFragment : BaseFragment() {
 
     private var binding: FragmentLoginBinding? = null

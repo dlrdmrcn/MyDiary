@@ -1,6 +1,8 @@
 package com.dilara.mydiary.base
 
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-open class BaseActivity : AppCompatActivity() {
+@AndroidEntryPoint
+abstract class BaseActivity : AppCompatActivity() {
 }

@@ -11,9 +11,8 @@ import androidx.navigation.Navigation
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentLoginOptionsBinding
 import com.dilara.mydiary.viewmodel.LoginOptionsViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+
 class LoginOptionsFragment : BaseFragment() {
 
     private var binding: FragmentLoginOptionsBinding? = null

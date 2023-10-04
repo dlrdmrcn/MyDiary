@@ -13,10 +13,9 @@ import com.dilara.mydiary.R
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentSignUpBinding
 import com.dilara.mydiary.viewmodel.SignUpViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
-@AndroidEntryPoint
+
 open class SignUpFragment : BaseFragment() {
 
     private var binding: FragmentSignUpBinding? = null
