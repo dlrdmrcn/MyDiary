@@ -44,7 +44,7 @@
     <string name="date_text_text">08.01.2023</string>
     <string name="delete_button_contentDescription">Günlüğü sil</string>
     <string name="export">Dışa Aktar</string>
-    <string name="drawer_import">İçe Aktar</string>
+    <string name="import_import">İçe Aktar</string>
     <string name="donate">Bağış Yap</string>
     <string name="rate_us">Bizi Değerlendirin</string>
     <string name="share_app">Uygulamayı Paylaş</string>
