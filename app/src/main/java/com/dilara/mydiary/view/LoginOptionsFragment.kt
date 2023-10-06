@@ -26,6 +26,7 @@ class LoginOptionsFragment : BaseFragment() {
 
         if (viewModel.activeUser()) {
             val intent = Intent(activity, HomeActivity::class.java)
+            activity?.finish()
             startActivity(intent)
         }
     }
@@ -54,6 +55,7 @@ class LoginOptionsFragment : BaseFragment() {
 
         binding?.continueWithoutLogin?.setOnClickListener {
             val intent = Intent(activity, HomeActivity::class.java)
+            activity?.finish()
             startActivity(intent)
         }
     }

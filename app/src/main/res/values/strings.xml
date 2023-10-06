@@ -72,5 +72,8 @@
     <string name="close_photo_contentDescription">Fotoğrafı kapatın</string>
     <string name="delete_photo_contentDescription">Fotoğrafı silin</string>
     <string name="selected_photo_contentDescription">Seçilen fotoğraf</string>
+    
+    <string name="logout_popup_message">Çıkış yapmak istediğinizden emin misiniz?</string>
+    <string name="cancel">Vazgeç</string>
 
 </resources>

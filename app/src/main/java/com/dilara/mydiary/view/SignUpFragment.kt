@@ -54,7 +54,7 @@ open class SignUpFragment : BaseFragment() {
         }
         binding?.signUp?.setOnClickListener {
             if (isValid()) {
-                signUpClicked(it)
+                signUpClicked()
             }
         }
     }
@@ -82,7 +82,7 @@ open class SignUpFragment : BaseFragment() {
         return true
     }
 
-    private fun signUpClicked(view: View) {
+    private fun signUpClicked() {
         val email = binding?.enterEmailText?.text.toString()
         val password = binding?.enterPasswordText?.text.toString()
         val repeatPassword = binding?.repeatPasswordText?.text.toString()
@@ -97,6 +97,7 @@ open class SignUpFragment : BaseFragment() {
                 password,
                 onSuccess = {
                     val intent = Intent(activity, HomeActivity::class.java)
+                    activity?.finish()
                     startActivity(intent)
                 },
                 onFailure = {

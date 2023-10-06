@@ -1,15 +1,22 @@
 package com.dilara.mydiary.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.dilara.mydiary.R
+import com.dilara.mydiary.base.BaseActivity
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentOtherBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class OtherFragment : BaseFragment() {
     private var binding: FragmentOtherBinding? = null
+    private var auth: FirebaseAuth = Firebase.auth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +55,18 @@ class OtherFragment : BaseFragment() {
             Navigation.findNavController(it).navigate(action)
         }
         binding?.logoutText?.setOnClickListener {
+            (activity as BaseActivity).showPopUp(
+                getString(R.string.app_name),
+                getString(R.string.logout_popup_message),
+                getString(R.string.logout),
+                {
+                    auth.signOut()
+                    val intent = Intent(this.activity, LoginActivity::class.java)
+                    activity?.finish()
+                    startActivity(intent)
+                },
+                getString(R.string.cancel)
+            )
 
         }
 
