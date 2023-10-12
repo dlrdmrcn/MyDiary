@@ -84,8 +84,8 @@ class LoginFragment : BaseFragment() {
                 password,
                 onSuccess = {
                     val intent = Intent(activity, HomeActivity::class.java)
-                    activity?.finish()
                     startActivity(intent)
+                    activity?.finish()
                 },
                 onFailure = {
                     binding?.emailLayout?.isErrorEnabled = true

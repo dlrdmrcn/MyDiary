@@ -62,8 +62,8 @@ class OtherFragment : BaseFragment() {
                 {
                     auth.signOut()
                     val intent = Intent(this.activity, LoginActivity::class.java)
-                    activity?.finish()
                     startActivity(intent)
+                    activity?.finish()
                 },
                 getString(R.string.cancel)
             )

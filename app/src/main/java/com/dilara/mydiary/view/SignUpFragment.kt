@@ -97,8 +97,8 @@ open class SignUpFragment : BaseFragment() {
                 password,
                 onSuccess = {
                     val intent = Intent(activity, HomeActivity::class.java)
-                    activity?.finish()
                     startActivity(intent)
+                    activity?.finish()
                 },
                 onFailure = {
                     Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG).show()
