@@ -16,9 +16,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateViewModelFactory
 import com.dilara.mydiary.R
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentAddDiaryBinding
+import com.dilara.mydiary.viewmodel.AddDiaryViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class AddDiaryFragment : BaseFragment() {
@@ -26,6 +29,10 @@ class AddDiaryFragment : BaseFragment() {
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private var selectedPicture: Uri? = null
+    private val viewModel: AddDiaryViewModel by viewModels {
+        SavedStateViewModelFactory(this.activity?.application, this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +60,8 @@ class AddDiaryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
                 if (result) {
@@ -75,6 +84,15 @@ class AddDiaryFragment : BaseFragment() {
 
         binding?.addPhoto?.setOnClickListener {
             onAddPhotoClicked(view)
+        }
+
+        binding?.save?.setOnClickListener {
+            val title = binding?.diaryTitle?.text.toString()
+            val editText = binding?.writtenDiaryText?.text.toString()
+            viewModel.upload(selectedPicture, title, editText, onFailure = {}, onSuccess = {
+                val intent = Intent(activity, HomeActivity::class.java)
+                startActivity(intent)
+            })
         }
     }
 
@@ -142,5 +160,4 @@ class AddDiaryFragment : BaseFragment() {
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activityResultLauncher.launch(intentToGallery)
     }
-
 }

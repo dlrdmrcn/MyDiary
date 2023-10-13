@@ -77,6 +77,7 @@
     <string name="cancel">Vazgeç</string>
 
     <string name="permission_needed_for_gallery">Galeri için izin gerekiyor.</string>
-    <string name="give_permission">Give permission</string>
+    <string name="give_permission">İzin ver</string>
+    <string name="save">Kaydet</string>
 
 </resources>

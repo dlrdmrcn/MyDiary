@@ -5,9 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
     tools:context=".view.AddDiaryFragment">
-    
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/selected_date_layout"
         android:layout_width="match_parent"
@@ -37,7 +36,7 @@
             android:text="@string/date_example"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
-    
+
     <EditText
         android:id="@+id/diary_title"
         android:layout_width="match_parent"
@@ -204,4 +203,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_photo"
         android:autofillHints="Ne hissediyorsunuz?" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_done"
+        android:contentDescription="@string/save"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:clickable="true"
+        android:focusable="true" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

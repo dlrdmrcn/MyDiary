@@ -1,9 +1,9 @@
 <resources >
-    <style name="Base.Theme.MyDiary" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.MyDiary" parent="Theme.Material3.DayNight.NoActionBar" >
         <item name="colorPrimary">@color/main_color</item>
+        <item name="android:windowBackground">@drawable/main_background</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
     </style>
-
-    <style name="Theme.MyDiary" parent="Base.Theme.MyDiary" />
 
     <style name="DatePickers" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/date_background</item>
@@ -15,5 +15,16 @@
         <item name="android:textColorPrimaryInverse">@color/white</item>
         <item name="android:textColorSecondaryInverse">@color/white</item>
     </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/floatingActionButton</item>
+        <item name="backgroundTint">@color/main_color</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="floatingActionButton" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">50%</item>
+    </style>
+
 
 </resources>
