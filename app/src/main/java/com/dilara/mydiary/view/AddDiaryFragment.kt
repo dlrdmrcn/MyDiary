@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import com.dilara.mydiary.R
+import com.dilara.mydiary.adapter.EmojiRecyclerViewAdapter
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentAddDiaryBinding
 import com.dilara.mydiary.viewmodel.AddDiaryViewModel
@@ -33,9 +34,13 @@ class AddDiaryFragment : BaseFragment() {
         SavedStateViewModelFactory(this.activity?.application, this)
     }
 
+    lateinit var menuAdapter: EmojiRecyclerViewAdapter
+    val menuList = ArrayList<Int>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        menuAdapter = EmojiRecyclerViewAdapter(requireContext(), menuList)
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -48,6 +53,8 @@ class AddDiaryFragment : BaseFragment() {
                     }
                 }
             }
+
+
     }
 
     override fun onCreateView(
@@ -94,6 +101,14 @@ class AddDiaryFragment : BaseFragment() {
                 startActivity(intent)
             })
         }
+
+        menuList.add(R.drawable.emoji_veryhappy)
+        menuList.add(R.drawable.emoji_happy)
+        menuList.add(R.drawable.emoji_expressionless)
+        menuList.add(R.drawable.emoji_sad)
+        menuList.add(R.drawable.emoji_cry)
+        menuList.add(R.drawable.emoji_angry)
+        menuList.add(R.drawable.emoji_cool)
     }
 
     private fun onAddPhotoClicked(view: View) {

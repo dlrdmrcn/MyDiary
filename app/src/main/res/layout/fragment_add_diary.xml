@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,11 +29,11 @@
                 android:id="@+id/selected_date_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/frame_background"
                 android:alpha="0.8"
+                android:background="@drawable/frame_background"
                 android:clickable="false"
-                android:focusable="false"
                 android:cursorVisible="false"
+                android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:text="@string/date_example"
                 android:textColor="@color/white" />
@@ -43,146 +43,81 @@
             android:id="@+id/diary_title"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:autofillHints="Başlık yazınız"
             android:background="@drawable/button_white"
-            app:endIconMode="clear_text"
             android:hint="@string/title"
             android:inputType="text"
-            android:autofillHints="Başlık yazınız"
-            android:layout_marginTop="10dp"
             android:paddingHorizontal="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:endIconMode="clear_text" />
 
         <TextView
             android:id="@+id/how_are_you_today"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/how_are_you_today"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="5dp"
-            android:textSize="20sp"
+            android:text="@string/how_are_you_today"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_marginHorizontal="20dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_emoji"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_white"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/ib_mood_veryhappy"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_veryhappy_contentDescription"
-                app:srcCompat="@drawable/emoji_veryhappy" />
-
-            <ImageButton
-                android:id="@+id/ib_mood_happy"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_happy_contentDescription"
-                app:srcCompat="@drawable/emoji_happy" />
-
-            <ImageButton
-                android:id="@+id/ib_mood_expressionless"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_expressionless_contentDescription"
-                app:srcCompat="@drawable/emoji_expressionless" />
-
-            <ImageButton
-                android:id="@+id/ib_mood_sad"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_sad_contentDescription"
-                app:srcCompat="@drawable/emoji_sad" />
-
-            <ImageButton
-                android:id="@+id/ib_mood_cry"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_cry_contentDescription"
-                app:srcCompat="@drawable/emoji_cry" />
-
-            <ImageButton
-                android:id="@+id/ib_mood_angry"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_angry_contentDescription"
-                app:srcCompat="@drawable/emoji_angry" />
-
-            <ImageButton
-                android:id="@+id/ib_mood_cool"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/mood_cool_contentDescription"
-                app:srcCompat="@drawable/emoji_cool" />
-        </LinearLayout>
+            android:background="@drawable/button_white" />
 
         <ImageView
             android:id="@+id/add_photo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="fitXY"
             android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:contentDescription="@string/add_photo_contentDescription"
-            app:srcCompat="@drawable/icon_add_photo_2"/>
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/icon_add_photo_2" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <EditText
                 android:id="@+id/written_diary_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/edit_text_background"
-                android:inputType="textMultiLine"
-                android:minHeight="250dp"
-                android:padding="15dp"
-                android:gravity="top"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:maxLines="100"
-                android:layout_marginBottom="10dp"
-                android:scrollbars="vertical"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:autofillHints="Ne hissediyorsunuz?"
+                android:background="@drawable/edit_text_background"
+                android:gravity="top"
                 android:hint="@string/feel"
-                android:autofillHints="Ne hissediyorsunuz?" />
+                android:inputType="textMultiLine"
+                android:maxLines="100"
+                android:minHeight="250dp"
+                android:padding="15dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_done"
-                android:layout_gravity="end"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="@string/save"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
-                android:focusable="true" />
+                android:contentDescription="@string/save"
+                android:focusable="true"
+                android:src="@drawable/icon_done" />
         </RelativeLayout>
-
     </LinearLayout>
 </ScrollView>
