@@ -8,14 +8,24 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.dilara.mydiary.R
 
-class EmojiRecyclerViewAdapter(var context: Context, var list: ArrayList<Int>) :
+class EmojiRecyclerViewAdapter(
+    var context: Context,
+    var list: ArrayList<Int>,
+    private val listener: Listener
+) :
     RecyclerView.Adapter<EmojiRecyclerViewAdapter.RowHolder>() {
+    interface Listener {
+        fun onItemClick(resourceId: Int, itemView: View)
+    }
 
 
     class RowHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindItems(items: Int) {
+        fun bindItems(item: Int, listener: Listener) {
+            itemView.setOnClickListener {
+                listener.onItemClick(item, itemView)
+            }
             val menuImage = itemView.findViewById<ImageButton>(R.id.emoji)
-            menuImage.setImageResource(items)
+            menuImage.setImageResource(item)
         }
     }
 
@@ -30,6 +40,6 @@ class EmojiRecyclerViewAdapter(var context: Context, var list: ArrayList<Int>) :
     }
 
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
-        holder.bindItems(list[position])
+        holder.bindItems(list[position], listener)
     }
 }

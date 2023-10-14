@@ -13,4 +13,6 @@
 
     <color name="lilac">#D0BCFF</color>
     <color name="date_background">#141218</color>
+
+    <color name="emoji_background">#5049467E</color>
 </resources>
