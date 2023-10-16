@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -20,25 +21,30 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dilara.mydiary.EMOJI
+import com.dilara.mydiary.MONTH
 import com.dilara.mydiary.R
 import com.dilara.mydiary.adapter.EmojiRecyclerViewAdapter
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentAddDiaryBinding
 import com.dilara.mydiary.viewmodel.AddDiaryViewModel
 import com.google.android.material.snackbar.Snackbar
+import java.util.Calendar
 
 class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
     private var binding: FragmentAddDiaryBinding? = null
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    private var selectedPicture: Uri? = null
+    private var diarySelectedPicture: Uri? = null
     private val viewModel: AddDiaryViewModel by viewModels {
         SavedStateViewModelFactory(this.activity?.application, this)
     }
-    lateinit var menuAdapter: EmojiRecyclerViewAdapter
-    val menuList = ArrayList<Int>()
-    private var mood: Int? = null
-    var lastClickedItem: View? = null
+    private lateinit var menuAdapter: EmojiRecyclerViewAdapter
+    private val menuList = ArrayList<Int>()
+    private var diaryMood: Int? = null
+    private var lastClickedItem: View? = null
+    private lateinit var today: Calendar
+    private var selectedPhoto: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,15 +56,31 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                 if (result.resultCode == RESULT_OK) {
                     val intentFromResult = result.data
                     if (intentFromResult != null) {
-                        selectedPicture = intentFromResult.data
-                        selectedPicture?.let {
-                            binding?.addPhoto?.setImageURI(it)
-                        }
+                        val bitmap = MediaStore.Images.Media.getBitmap(
+                            requireActivity().contentResolver,
+                            intentFromResult.data
+                        )
+                        selectedPhoto = makeSmallerBitmap(bitmap, 1000)
+                        diarySelectedPicture = Uri.parse(
+                            MediaStore.Images.Media.insertImage(
+                                requireActivity().contentResolver,
+                                selectedPhoto,
+                                "a",
+                                null
+                            )
+                        )
+                        binding?.addPhoto?.setImageBitmap(bitmap)
                     }
                 }
             }
 
-
+        viewModel.popUpLiveData.observe(requireActivity()) {
+            (activity as HomeActivity).showPopUp(
+                getString(R.string.warning),
+                getString(R.string.try_again),
+                getString(R.string.ok)
+            )
+        }
     }
 
     override fun onCreateView(
@@ -71,6 +93,13 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        today = Calendar.getInstance()
+        val day: Int = today.get(Calendar.DAY_OF_MONTH)
+        val month = MONTH.values().firstOrNull { it.value == today.get(Calendar.MONTH) }
+        val year: Int = today.get(Calendar.YEAR)
+        val diaryDate = "$day $month $year"
+        binding?.selectedDateText?.setText(diaryDate)
 
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -110,12 +139,70 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         }
 
         binding?.save?.setOnClickListener {
-            val title = binding?.diaryTitle?.text.toString()
-            val editText = binding?.writtenDiaryText?.text.toString()
-            viewModel.upload(selectedPicture, title, editText, onFailure = {}, onSuccess = {
-                val intent = Intent(activity, HomeActivity::class.java)
-                startActivity(intent)
-            })
+            val diaryEmoji: Int
+            if (diaryMood == null) {
+                (activity as HomeActivity).showPopUp(
+                    getString(R.string.warning),
+                    getString(R.string.select_emoji),
+                    getString(R.string.ok)
+                )
+            } else {
+                diaryEmoji = when (diaryMood) {
+                    R.drawable.emoji_veryhappy -> EMOJI.VERY_HAPPY.ordinal
+                    R.drawable.emoji_happy -> EMOJI.HAPPY.ordinal
+                    R.drawable.emoji_expressionless -> EMOJI.EXPRESSIONLESS.ordinal
+                    R.drawable.emoji_sad -> EMOJI.SAD.ordinal
+                    R.drawable.emoji_cry -> EMOJI.CRY.ordinal
+                    R.drawable.emoji_angry -> EMOJI.ANGRY.ordinal
+                    else -> {
+                        EMOJI.COOL.ordinal
+                    }
+                }
+
+                val diaryTitle = binding?.diaryTitle?.text.toString()
+                val diaryEditText = binding?.writtenDiaryText?.text.toString()
+
+                if (diaryTitle.isNotEmpty()) {
+                    if (diaryEditText.isNotEmpty()) {
+                        viewModel.upload(
+                            diaryDate,
+                            diaryTitle,
+                            diaryEditText,
+                            diaryEmoji,
+                            diarySelectedPicture,
+                            onSuccess = {
+                                (activity as HomeActivity).showPopUp(
+                                    getString(R.string.app_name),
+                                    getString(R.string.diary_successful),
+                                    getString(R.string.ok),
+                                    positiveButtonCallBack = {
+                                        requireActivity().supportFragmentManager.popBackStack()
+                                    }
+                                )
+                            },
+                            onFailure = {
+                                (activity as HomeActivity).showPopUp(
+                                    getString(R.string.app_name),
+                                    getString(R.string.try_again),
+                                    getString(R.string.ok)
+                                )
+                            })
+                    } else {
+                        (activity as HomeActivity).showPopUp(
+                            getString(R.string.warning),
+                            getString(R.string.write_diary),
+                            getString(R.string.ok)
+                        )
+
+                    }
+                } else {
+                    (activity as HomeActivity).showPopUp(
+                        getString(R.string.warning),
+                        getString(R.string.write_title),
+                        getString(R.string.ok)
+                    )
+                }
+            }
         }
     }
 
@@ -200,8 +287,29 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                 R.color.emoji_background
             )
         )
-        mood = resourceId
+        diaryMood = resourceId
         lastClickedItem = itemView
+    }
+
+    private fun makeSmallerBitmap(image: Bitmap, maximumSize: Int): Bitmap {
+        var width = image.width
+        var heigth = image.height
+
+        val bitmapRatio: Double = width.toDouble() / heigth.toDouble()
+
+        if (bitmapRatio > 1) {
+            width = maximumSize
+            val scaledHeigth = width / bitmapRatio
+            heigth = scaledHeigth.toInt()
+
+        } else {
+            heigth = maximumSize
+            val scaledHeigth = heigth * bitmapRatio
+            width = scaledHeigth.toInt()
+
+        }
+        return Bitmap.createScaledBitmap(image, width, heigth, true)
+
     }
 
 }

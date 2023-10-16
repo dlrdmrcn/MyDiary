@@ -1,6 +1,7 @@
 package com.dilara.mydiary.viewmodel
 
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
 import com.dilara.mydiary.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -18,11 +19,14 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
     private var firestore: FirebaseFirestore = Firebase.firestore
     private var storage: FirebaseStorage = Firebase.storage
+    var popUpLiveData = MutableLiveData<Boolean>()
 
     fun upload(
-        selectedPicture: Uri? = null,
-        title: String,
-        editText: String,
+        diaryDate: String,
+        diaryTitle: String,
+        diaryEditText: String,
+        diaryMood: Int,
+        diarySelectedPicture: Uri? = null,
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
@@ -31,27 +35,40 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         val reference = storage.reference
         val imageReference = reference.child("images").child(imageName)
 
-        if (selectedPicture != null) {
-            imageReference.putFile(selectedPicture).addOnSuccessListener {
-                val uploadPictureReference = storage.reference.child("images").child(imageName)
-                uploadPictureReference.downloadUrl.addOnSuccessListener {
-                    val downloadUrl = it.toString()
-                    if (auth.currentUser != null) {
-                        val postMap = hashMapOf<String, Any>()
-                        postMap.put("downloadUrl", downloadUrl)
-                        postMap.put("title", title)
-                        postMap.put("editText", editText)
+        if (auth.currentUser != null) {
+            val postMap = hashMapOf<String, Any>()
+            postMap["diaryTitle"] = diaryTitle
+            postMap["diaryEditText"] = diaryEditText
+            postMap["diaryMood"] = diaryMood
+            postMap["diaryDate"] = diaryDate
 
-                        firestore.collection("Diary").add(postMap).addOnSuccessListener {
-                            onSuccess.invoke()
-                        }.addOnFailureListener {
-                            onFailure.invoke()
-                        }
+            if (diarySelectedPicture != null) {
+                imageReference.putFile(diarySelectedPicture).addOnSuccessListener {
+                    val uploadPictureReference = storage.reference.child("images").child(imageName)
+                    uploadPictureReference.downloadUrl.addOnSuccessListener {
+                        val downloadUrl = it.toString()
+                        postMap["downloadUrl"] = downloadUrl
+                        addDiaryToFirebase(postMap, onSuccess, onFailure)
                     }
+                }.addOnFailureListener {
+                    popUpLiveData.value = !(popUpLiveData.value ?: false)
                 }
+            } else {
+                addDiaryToFirebase(postMap, onSuccess, onFailure)
             }
         }
-
-
     }
+
+    private fun addDiaryToFirebase(
+        postMap: HashMap<String, Any>,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        firestore.collection("Diary").add(postMap).addOnSuccessListener {
+            onSuccess.invoke()
+        }.addOnFailureListener {
+            onFailure.invoke()
+        }
+    }
+
 }

@@ -21,8 +21,6 @@
             android:clickable="false"
             android:focusable="false"
             android:textColorHint="@color/white"
-            app:endIconDrawable="@drawable/icon_calendar_diary"
-            app:endIconMode="custom"
             app:endIconTint="@null">
 
             <com.google.android.material.textfield.TextInputEditText

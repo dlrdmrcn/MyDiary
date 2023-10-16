@@ -79,5 +79,12 @@
     <string name="permission_needed_for_gallery">Galeri için izin gerekiyor.</string>
     <string name="give_permission">İzin ver</string>
     <string name="save">Kaydet</string>
-
+    
+    <string name="warning">Uyarı!</string>
+    <string name="select_emoji">Lütfen bir ruh hali seçin.</string>
+    <string name="write_diary">Lütfen bir günlük yazın.</string>
+    <string name="write_title">Lütfen bir başlık yazın.</string>
+    <string name="ok">Tamam</string>
+    <string name="diary_successful">Günlük başarıyla kaydedildi.</string>
+    <string name="try_again">Bir hata oluştu. Lütfen tekrar deneyin.</string>
 </resources>
