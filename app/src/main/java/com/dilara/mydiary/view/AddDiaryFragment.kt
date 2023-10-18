@@ -35,7 +35,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
     private var binding: FragmentAddDiaryBinding? = null
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    private var diarySelectedPicture: Uri? = null
+    private var selectedPictureUri: Uri? = null
     private val viewModel: AddDiaryViewModel by viewModels {
         SavedStateViewModelFactory(this.activity?.application, this)
     }
@@ -44,7 +44,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
     private var diaryMood: Int? = null
     private var lastClickedItem: View? = null
     private lateinit var today: Calendar
-    private var selectedPhoto: Bitmap? = null
+    private var selectedBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +60,11 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                             requireActivity().contentResolver,
                             intentFromResult.data
                         )
-                        selectedPhoto = makeSmallerBitmap(bitmap, 1000)
-                        diarySelectedPicture = Uri.parse(
+                        selectedBitmap = makeSmallerBitmap(bitmap, 1000)
+                        selectedPictureUri = Uri.parse(
                             MediaStore.Images.Media.insertImage(
                                 requireActivity().contentResolver,
-                                selectedPhoto,
+                                selectedBitmap,
                                 "a",
                                 null
                             )
@@ -98,8 +98,8 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         val day: Int = today.get(Calendar.DAY_OF_MONTH)
         val month = MONTH.values().firstOrNull { it.value == today.get(Calendar.MONTH) }
         val year: Int = today.get(Calendar.YEAR)
-        val diaryDate = "$day $month $year"
-        binding?.selectedDateText?.setText(diaryDate)
+        val date = "$day $month $year"
+        binding?.selectedDateText?.setText(date)
 
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -139,7 +139,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         }
 
         binding?.save?.setOnClickListener {
-            val diaryEmoji: Int
+            val mood: Int
             if (diaryMood == null) {
                 (activity as HomeActivity).showPopUp(
                     getString(R.string.warning),
@@ -147,7 +147,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                     getString(R.string.ok)
                 )
             } else {
-                diaryEmoji = when (diaryMood) {
+                mood = when (diaryMood) {
                     R.drawable.emoji_veryhappy -> EMOJI.VERY_HAPPY.ordinal
                     R.drawable.emoji_happy -> EMOJI.HAPPY.ordinal
                     R.drawable.emoji_expressionless -> EMOJI.EXPRESSIONLESS.ordinal
@@ -159,17 +159,17 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                     }
                 }
 
-                val diaryTitle = binding?.diaryTitle?.text.toString()
-                val diaryEditText = binding?.writtenDiaryText?.text.toString()
+                val title = binding?.diaryTitle?.text.toString()
+                val content = binding?.writtenDiaryText?.text.toString()
 
-                if (diaryTitle.isNotEmpty()) {
-                    if (diaryEditText.isNotEmpty()) {
+                if (title.isNotEmpty()) {
+                    if (content.isNotEmpty()) {
                         viewModel.upload(
-                            diaryDate,
-                            diaryTitle,
-                            diaryEditText,
-                            diaryEmoji,
-                            diarySelectedPicture,
+                            date,
+                            title,
+                            content,
+                            mood,
+                            selectedPictureUri,
                             onSuccess = {
                                 (activity as HomeActivity).showPopUp(
                                     getString(R.string.app_name),

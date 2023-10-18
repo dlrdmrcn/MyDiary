@@ -22,11 +22,11 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
     var popUpLiveData = MutableLiveData<Boolean>()
 
     fun upload(
-        diaryDate: String,
-        diaryTitle: String,
-        diaryEditText: String,
-        diaryMood: Int,
-        diarySelectedPicture: Uri? = null,
+        date: String,
+        title: String,
+        content: String,
+        mood: Int,
+        selectedPicture: Uri? = null,
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
@@ -37,13 +37,13 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
 
         if (auth.currentUser != null) {
             val postMap = hashMapOf<String, Any>()
-            postMap["diaryTitle"] = diaryTitle
-            postMap["diaryEditText"] = diaryEditText
-            postMap["diaryMood"] = diaryMood
-            postMap["diaryDate"] = diaryDate
+            postMap["title"] = title
+            postMap["content"] = content
+            postMap["mood"] = mood
+            postMap["date"] = date
 
-            if (diarySelectedPicture != null) {
-                imageReference.putFile(diarySelectedPicture).addOnSuccessListener {
+            if (selectedPicture != null) {
+                imageReference.putFile(selectedPicture).addOnSuccessListener {
                     val uploadPictureReference = storage.reference.child("images").child(imageName)
                     uploadPictureReference.downloadUrl.addOnSuccessListener {
                         val downloadUrl = it.toString()
@@ -64,7 +64,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
-        firestore.collection("Diary").add(postMap).addOnSuccessListener {
+        firestore.collection("DiaryList").add(postMap).addOnSuccessListener {
             onSuccess.invoke()
         }.addOnFailureListener {
             onFailure.invoke()
