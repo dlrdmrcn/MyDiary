@@ -87,4 +87,8 @@
     <string name="ok">Tamam</string>
     <string name="diary_successful">Günlük başarıyla kaydedildi.</string>
     <string name="try_again">Bir hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="delete">Sil</string>
+    <string name="delete_diary_message">Günlüğü silmek içindeki verilerin tümünün silinmesi demektir. Geri getirilemez. Silmek istediğinize emin misiniz?</string>
+    <string name="the_photo_you_added">Eklediğiniz fotoğraf</string>
+    <string name="the_emoji_you_added">Eklediğiniz emoji</string>
 </resources>

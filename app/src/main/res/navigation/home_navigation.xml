@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_otherFragment2"
             app:destination="@id/otherFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_diaryDetailsFragment"
+            app:destination="@id/diaryDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/rateFragment"
@@ -133,5 +136,27 @@
         <action
             android:id="@+id/action_otherFragment_to_donateFragment"
             app:destination="@id/donateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diaryDetailsFragment"
+        android:name="com.dilara.mydiary.view.DiaryDetailsFragment"
+        android:label="fragment_diary_details"
+        tools:layout="@layout/fragment_diary_details" >
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+        <argument
+            android:name="downloadUrl"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="mood"
+            app:argType="long" />
     </fragment>
 </navigation>

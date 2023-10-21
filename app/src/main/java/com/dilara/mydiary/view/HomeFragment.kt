@@ -13,7 +13,7 @@ import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentHomeBinding
 import com.dilara.mydiary.viewmodel.HomeViewModel
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), HomeRecyclerAdapter.Listener {
 
     private val viewModel: HomeViewModel by viewModels {
         SavedStateViewModelFactory(this.activity?.application, this)
@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initObservers()
         viewModel.getData(firestoreError = {
-            (activity as HomeActivity).showPopUp(
+            (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),
                 getString(R.string.ok),
@@ -48,11 +48,25 @@ class HomeFragment : BaseFragment() {
 
     private fun initObservers() {
         viewModel.diaryLiveData.observe(requireActivity()) {
-            homeAdapter = HomeRecyclerAdapter(it)
+            homeAdapter = HomeRecyclerAdapter(it, requireActivity(), requireContext(), this)
             binding?.myDiariesRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
             binding?.myDiariesRecyclerView?.adapter = homeAdapter
+            binding?.totalNumberDiary?.text = viewModel.diaryLiveData.value?.size.toString()
 
             homeAdapter.notifyDataSetChanged()
         }
+    }
+
+    override fun onDeleteClick(id: String) {
+        viewModel.deleteDiary(id, onFailure = {
+            (activity as? HomeActivity)?.showPopUp(
+                getString(R.string.warning),
+                getString(R.string.try_again),
+                getString(R.string.ok),
+                positiveButtonCallBack = {
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+            )
+        })
     }
 }

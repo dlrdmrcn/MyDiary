@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.DiaryDetailsFragment">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:background="@drawable/diary_details_background"
+        tools:text="01 Ocak 2023"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:background="@drawable/diary_details_background"
+        tools:text="Haftasonu"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="20dp">
+
+        <ImageView
+            android:id="@+id/mood"
+            android:layout_width="50dp"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            tools:src="@drawable/emoji_cry"
+            android:contentDescription="@string/the_emoji_you_added"/>
+
+        <ImageView
+            android:id="@+id/selecedPicture"
+            android:layout_gravity="end"
+            tools:src="@drawable/woman_1"
+            android:layout_alignParentEnd="true"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/the_photo_you_added"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="18sp"
+            android:gravity="top"
+            android:padding="15dp"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="vertical"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/diary_details_background"
+            tools:text="Bugün başıma..."/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:contentDescription="@string/save"
+            android:focusable="true"
+            android:src="@drawable/icon_edit" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -75,7 +75,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
             }
 
         viewModel.popUpLiveData.observe(requireActivity()) {
-            (activity as HomeActivity).showPopUp(
+            (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),
                 getString(R.string.ok)
@@ -141,7 +141,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         binding?.save?.setOnClickListener {
             val mood: Int
             if (diaryMood == null) {
-                (activity as HomeActivity).showPopUp(
+                (activity as? HomeActivity)?.showPopUp(
                     getString(R.string.warning),
                     getString(R.string.select_emoji),
                     getString(R.string.ok)
@@ -171,7 +171,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                             mood,
                             selectedPictureUri,
                             onSuccess = {
-                                (activity as HomeActivity).showPopUp(
+                                (activity as? HomeActivity)?.showPopUp(
                                     getString(R.string.app_name),
                                     getString(R.string.diary_successful),
                                     getString(R.string.ok),
@@ -181,14 +181,14 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                 )
                             },
                             onFailure = {
-                                (activity as HomeActivity).showPopUp(
+                                (activity as? HomeActivity)?.showPopUp(
                                     getString(R.string.app_name),
                                     getString(R.string.try_again),
                                     getString(R.string.ok)
                                 )
                             })
                     } else {
-                        (activity as HomeActivity).showPopUp(
+                        (activity as? HomeActivity)?.showPopUp(
                             getString(R.string.warning),
                             getString(R.string.write_diary),
                             getString(R.string.ok)
@@ -196,7 +196,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
 
                     }
                 } else {
-                    (activity as HomeActivity).showPopUp(
+                    (activity as? HomeActivity)?.showPopUp(
                         getString(R.string.warning),
                         getString(R.string.write_title),
                         getString(R.string.ok)

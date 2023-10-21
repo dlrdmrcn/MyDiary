@@ -55,7 +55,7 @@ class OtherFragment : BaseFragment() {
             Navigation.findNavController(it).navigate(action)
         }
         binding?.logoutText?.setOnClickListener {
-            (activity as BaseActivity).showPopUp(
+            (activity as? BaseActivity)?.showPopUp(
                 getString(R.string.app_name),
                 getString(R.string.logout_popup_message),
                 getString(R.string.logout),

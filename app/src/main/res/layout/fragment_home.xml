@@ -277,10 +277,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_diaries_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

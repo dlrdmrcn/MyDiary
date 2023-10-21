@@ -1,16 +1,30 @@
 package com.dilara.mydiary.adapter
 
+import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.dilara.mydiary.R
 import com.dilara.mydiary.databinding.ItemHomeRecyclerBinding
 import com.dilara.mydiary.model.Diary
+import com.dilara.mydiary.view.HomeActivity
+import com.dilara.mydiary.view.HomeFragmentDirections
 
-class HomeRecyclerAdapter(private val diaryList: ArrayList<Diary>) :
+class HomeRecyclerAdapter(
+    private val diaryList: ArrayList<Diary>,
+    var activity: Activity,
+    var context: Context,
+    val listener: Listener
+) :
     RecyclerView.Adapter<HomeRecyclerAdapter.DiaryHolder>() {
+    interface Listener {
+        fun onDeleteClick(id: String)
+    }
+
     class DiaryHolder(val binding: ItemHomeRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryHolder {
@@ -24,6 +38,27 @@ class HomeRecyclerAdapter(private val diaryList: ArrayList<Diary>) :
     }
 
     override fun onBindViewHolder(holder: DiaryHolder, position: Int) {
-        holder.binding.dateText.text = diaryList[position].diaryDate
+        holder.binding.dateText.text = diaryList[position].date
+        holder.binding.dateText.setOnClickListener { view ->
+            val action = HomeFragmentDirections.actionHomeFragmentToDiaryDetailsFragment(
+                diaryList[position].date,
+                diaryList[position].title,
+                diaryList[position].content,
+                diaryList[position].downloadUrl,
+                diaryList[position].mood
+            )
+            Navigation.findNavController(view).navigate(action)
+        }
+        holder.binding.deleteDiary.setOnClickListener {
+            (activity as? HomeActivity)?.showPopUp(
+                context.getString(R.string.warning),
+                context.getString(R.string.delete_diary_message),
+                context.getString(R.string.delete),
+                positiveButtonCallBack = {
+                    listener.onDeleteClick(diaryList[position].id)
+                },
+                context.getString(R.string.cancel)
+            )
+        }
     }
 }
