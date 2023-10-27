@@ -92,7 +92,44 @@
         android:id="@+id/addDiaryFragment"
         android:name="com.dilara.mydiary.view.AddDiaryFragment"
         android:label="fragment_add_diary"
-        tools:layout="@layout/fragment_add_diary" />
+        tools:layout="@layout/fragment_add_diary" >
+        <argument
+            android:name="date"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="content"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="downloadUrl"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="mood"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="fromEdit"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_addDiaryFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/calendarFragment"
         android:name="com.dilara.mydiary.view.CalendarFragment"
@@ -158,5 +195,11 @@
         <argument
             android:name="mood"
             app:argType="long" />
+        <action
+            android:id="@+id/action_diaryDetailsFragment_to_addDiaryFragment"
+            app:destination="@id/addDiaryFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 </navigation>

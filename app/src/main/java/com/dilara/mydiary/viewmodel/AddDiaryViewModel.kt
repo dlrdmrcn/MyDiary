@@ -71,4 +71,57 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
+    fun update(
+        diaryId: String,
+        date: String,
+        title: String,
+        content: String,
+        mood: Int,
+        selectedPicture: Uri? = null,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        val uuid = UUID.randomUUID()
+        val imageName = "$uuid.jpg"
+        val reference = storage.reference
+        val imageReference = reference.child("images").child(imageName)
+
+
+        if (auth.currentUser != null) {
+            val postMap = hashMapOf<String, Any>()
+            postMap["title"] = title
+            postMap["content"] = content
+            postMap["mood"] = mood
+            postMap["date"] = date
+
+            if (selectedPicture != null) {
+                imageReference.putFile(selectedPicture).addOnSuccessListener {
+                    val uploadPictureReference = storage.reference.child("images").child(imageName)
+                    uploadPictureReference.downloadUrl.addOnSuccessListener {
+                        val downloadUrl = it.toString()
+                        postMap["downloadUrl"] = downloadUrl
+                        updateToFirebase(diaryId, postMap, onSuccess, onFailure)
+                    }
+                }.addOnFailureListener {
+                    popUpLiveData.value = !(popUpLiveData.value ?: false)
+                }
+            } else {
+                updateToFirebase(diaryId, postMap, onSuccess, onFailure)
+            }
+        }
+    }
+
+    private fun updateToFirebase(
+        diaryId: String,
+        postMap: HashMap<String, Any>,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+
+        firestore.collection("DiaryList").document(diaryId).update(postMap).addOnSuccessListener {
+            onSuccess.invoke()
+        }.addOnFailureListener {
+            onFailure.invoke()
+        }
+    }
 }

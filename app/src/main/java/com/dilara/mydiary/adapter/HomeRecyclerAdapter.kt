@@ -45,7 +45,8 @@ class HomeRecyclerAdapter(
                 diaryList[position].title,
                 diaryList[position].content,
                 diaryList[position].downloadUrl,
-                diaryList[position].mood
+                diaryList[position].mood,
+                diaryList[position].id,
             )
             Navigation.findNavController(view).navigate(action)
         }

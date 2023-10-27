@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dilara.mydiary.EMOJI
@@ -27,8 +29,10 @@ import com.dilara.mydiary.R
 import com.dilara.mydiary.adapter.EmojiRecyclerViewAdapter
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentAddDiaryBinding
+import com.dilara.mydiary.model.Diary
 import com.dilara.mydiary.viewmodel.AddDiaryViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import java.util.Calendar
 
 class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
@@ -39,17 +43,39 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
     private val viewModel: AddDiaryViewModel by viewModels {
         SavedStateViewModelFactory(this.activity?.application, this)
     }
-    private lateinit var menuAdapter: EmojiRecyclerViewAdapter
+    private lateinit var emojiAdapter: EmojiRecyclerViewAdapter
     private val menuList = ArrayList<Int>()
     private var diaryMood: Int? = null
     private var lastClickedItem: View? = null
     private lateinit var today: Calendar
     private var selectedBitmap: Bitmap? = null
+    private var fromEdit = false
+    private var diaryArgs: Diary? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        menuAdapter = EmojiRecyclerViewAdapter(requireContext(), menuList, this@AddDiaryFragment)
+        arguments?.let {
+            val safeArgs: AddDiaryFragmentArgs by navArgs()
+            fromEdit = safeArgs.fromEdit
+            if (fromEdit) {
+                diaryArgs = Diary(
+                    safeArgs.date ?: "",
+                    safeArgs.content ?: "",
+                    safeArgs.title ?: "",
+                    safeArgs.mood,
+                    safeArgs.downloadUrl ?: "",
+                    safeArgs.id ?: ""
+                )
+            }
+        }
+
+        emojiAdapter = EmojiRecyclerViewAdapter(
+            requireContext(),
+            menuList,
+            this@AddDiaryFragment,
+            getSelectedMoodDrawable(diaryArgs?.mood ?: -1)
+        )
 
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -99,12 +125,29 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         val month = MONTH.values().firstOrNull { it.value == today.get(Calendar.MONTH) }
         val year: Int = today.get(Calendar.YEAR)
         val date = "$day $month $year"
-        binding?.selectedDateText?.setText(date)
+
+        if (fromEdit) {
+            binding?.diaryTitle?.setText(diaryArgs?.title)
+            binding?.selectedDateText?.setText(diaryArgs?.date)
+            binding?.writtenDiaryText?.setText(diaryArgs?.content)
+
+            if (!diaryArgs?.downloadUrl.isNullOrEmpty()) {
+                Picasso
+                    .get()
+                    .load(diaryArgs?.downloadUrl)
+                    .into(binding?.addPhoto)
+
+            } else {
+                //No operation
+            }
+        } else {
+            binding?.selectedDateText?.setText(date)
+        }
 
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding?.recyclerViewEmoji?.layoutManager = layoutManager
-        binding?.recyclerViewEmoji?.adapter = menuAdapter
+        binding?.recyclerViewEmoji?.adapter = emojiAdapter
 
         menuList.add(R.drawable.emoji_veryhappy)
         menuList.add(R.drawable.emoji_happy)
@@ -147,46 +190,70 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                     getString(R.string.ok)
                 )
             } else {
-                mood = when (diaryMood) {
-                    R.drawable.emoji_veryhappy -> EMOJI.VERY_HAPPY.ordinal
-                    R.drawable.emoji_happy -> EMOJI.HAPPY.ordinal
-                    R.drawable.emoji_expressionless -> EMOJI.EXPRESSIONLESS.ordinal
-                    R.drawable.emoji_sad -> EMOJI.SAD.ordinal
-                    R.drawable.emoji_cry -> EMOJI.CRY.ordinal
-                    R.drawable.emoji_angry -> EMOJI.ANGRY.ordinal
-                    else -> {
-                        EMOJI.COOL.ordinal
-                    }
-                }
+                mood = getMood()
 
                 val title = binding?.diaryTitle?.text.toString()
                 val content = binding?.writtenDiaryText?.text.toString()
 
                 if (title.isNotEmpty()) {
                     if (content.isNotEmpty()) {
-                        viewModel.upload(
-                            date,
-                            title,
-                            content,
-                            mood,
-                            selectedPictureUri,
-                            onSuccess = {
-                                (activity as? HomeActivity)?.showPopUp(
-                                    getString(R.string.app_name),
-                                    getString(R.string.diary_successful),
-                                    getString(R.string.ok),
-                                    positiveButtonCallBack = {
-                                        requireActivity().supportFragmentManager.popBackStack()
-                                    }
-                                )
-                            },
-                            onFailure = {
-                                (activity as? HomeActivity)?.showPopUp(
-                                    getString(R.string.app_name),
-                                    getString(R.string.try_again),
-                                    getString(R.string.ok)
-                                )
-                            })
+                        val safeArgs: AddDiaryFragmentArgs by navArgs()
+                        fromEdit = safeArgs.fromEdit
+                        if (fromEdit) {
+                            safeArgs.id?.let { id ->
+                                viewModel.update(
+                                    id,
+                                    date,
+                                    title,
+                                    content,
+                                    mood,
+                                    selectedPictureUri,
+                                    onSuccess = {
+                                        (activity as? HomeActivity)?.showPopUp(
+                                            getString(R.string.app_name),
+                                            getString(R.string.diary_successful),
+                                            getString(R.string.ok),
+                                            positiveButtonCallBack = {
+                                                val action =
+                                                    AddDiaryFragmentDirections.actionAddDiaryFragmentToHomeFragment()
+                                                Navigation.findNavController(it).navigate(action)
+                                            }
+                                        )
+                                    },
+                                    onFailure = {
+                                        (activity as? HomeActivity)?.showPopUp(
+                                            getString(R.string.app_name),
+                                            getString(R.string.try_again),
+                                            getString(R.string.ok)
+                                        )
+                                    })
+                            }
+                        } else {
+                            viewModel.upload(
+                                date,
+                                title,
+                                content,
+                                mood,
+                                selectedPictureUri,
+                                onSuccess = {
+                                    (activity as? HomeActivity)?.showPopUp(
+                                        getString(R.string.app_name),
+                                        getString(R.string.diary_successful),
+                                        getString(R.string.ok),
+                                        positiveButtonCallBack = {
+                                            requireActivity().supportFragmentManager.popBackStack()
+                                        }
+                                    )
+                                },
+                                onFailure = {
+                                    (activity as? HomeActivity)?.showPopUp(
+                                        getString(R.string.app_name),
+                                        getString(R.string.try_again),
+                                        getString(R.string.ok)
+                                    )
+                                })
+                        }
+
                     } else {
                         (activity as? HomeActivity)?.showPopUp(
                             getString(R.string.warning),
@@ -203,6 +270,33 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                     )
                 }
             }
+        }
+    }
+
+    private fun getMood(): Int {
+        return when (diaryMood) {
+            R.drawable.emoji_veryhappy -> EMOJI.VERY_HAPPY.ordinal
+            R.drawable.emoji_happy -> EMOJI.HAPPY.ordinal
+            R.drawable.emoji_expressionless -> EMOJI.EXPRESSIONLESS.ordinal
+            R.drawable.emoji_sad -> EMOJI.SAD.ordinal
+            R.drawable.emoji_cry -> EMOJI.CRY.ordinal
+            R.drawable.emoji_angry -> EMOJI.ANGRY.ordinal
+            else -> {
+                EMOJI.COOL.ordinal
+            }
+        }
+    }
+
+    private fun getSelectedMoodDrawable(mood: Long): Int {
+        return when (mood.toInt()) {
+            EMOJI.VERY_HAPPY.ordinal -> R.drawable.emoji_veryhappy
+            EMOJI.HAPPY.ordinal -> R.drawable.emoji_happy
+            EMOJI.EXPRESSIONLESS.ordinal -> R.drawable.emoji_expressionless
+            EMOJI.SAD.ordinal -> R.drawable.emoji_sad
+            EMOJI.CRY.ordinal -> R.drawable.emoji_cry
+            EMOJI.ANGRY.ordinal -> R.drawable.emoji_angry
+            EMOJI.COOL.ordinal -> R.drawable.emoji_cool
+            else -> -1
         }
     }
 
@@ -271,24 +365,27 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         activityResultLauncher.launch(intentToGallery)
     }
 
-    override fun onItemClick(resourceId: Int, itemView: View) {
+    override fun onItemClick(resourceId: Int, itemView: View?) {
 
-        if (lastClickedItem != null && lastClickedItem != itemView) {
-            lastClickedItem?.setBackgroundColor(
+        itemView?.let {
+            if (lastClickedItem != null && lastClickedItem != itemView) {
+                lastClickedItem?.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.transparent
+                    )
+                )
+            }
+            itemView.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.transparent
+                    R.color.emoji_background
                 )
             )
+            diaryMood = resourceId
+            lastClickedItem = itemView
         }
-        itemView.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.emoji_background
-            )
-        )
-        diaryMood = resourceId
-        lastClickedItem = itemView
+
     }
 
     private fun makeSmallerBitmap(image: Bitmap, maximumSize: Int): Bitmap {

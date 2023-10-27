@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.dilara.mydiary.EMOJI
 import com.dilara.mydiary.R
@@ -30,6 +31,7 @@ class DiaryDetailsFragment : Fragment() {
         val content = safeArgs.content
         val mood = safeArgs.mood
         val downloadUrl = safeArgs.downloadUrl
+        val id = safeArgs.id
 
         val emoji = when (mood.toInt()) {
             EMOJI.VERY_HAPPY.ordinal -> R.drawable.emoji_veryhappy
@@ -38,7 +40,6 @@ class DiaryDetailsFragment : Fragment() {
             EMOJI.SAD.ordinal -> R.drawable.emoji_sad
             EMOJI.CRY.ordinal -> R.drawable.emoji_cry
             EMOJI.ANGRY.ordinal -> R.drawable.emoji_angry
-            EMOJI.COOL.ordinal -> R.drawable.emoji_cool
             else -> R.drawable.emoji_cool
         }
 
@@ -51,5 +52,18 @@ class DiaryDetailsFragment : Fragment() {
         binding?.title?.text = title
         binding?.content?.text = content
         binding?.mood?.setImageDrawable(requireActivity().getDrawable(emoji))
+        binding?.edit?.setOnClickListener {
+            val action =
+                DiaryDetailsFragmentDirections.actionDiaryDetailsFragmentToAddDiaryFragment(
+                    date,
+                    title,
+                    content,
+                    downloadUrl,
+                    mood,
+                    id,
+                    true
+                )
+            Navigation.findNavController(view).navigate(action)
+        }
     }
 }
