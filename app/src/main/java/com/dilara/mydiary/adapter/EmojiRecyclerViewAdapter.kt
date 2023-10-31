@@ -21,7 +21,6 @@ class EmojiRecyclerViewAdapter(
         fun onItemClick(resourceId: Int, itemView: View?)
     }
 
-
     class RowHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindItems(item: Int, listener: Listener, mood: Int? = null, context: Context) {
@@ -53,7 +52,7 @@ class EmojiRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.emoji_row_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.emoji_recycler_row, parent, false)
         return RowHolder(view)
     }
 

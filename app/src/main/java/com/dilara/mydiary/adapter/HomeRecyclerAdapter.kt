@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.dilara.mydiary.R
-import com.dilara.mydiary.databinding.ItemHomeRecyclerBinding
+import com.dilara.mydiary.databinding.HomeRecyclerRowBinding
 import com.dilara.mydiary.model.Diary
 import com.dilara.mydiary.view.HomeActivity
 import com.dilara.mydiary.view.HomeFragmentDirections
@@ -23,13 +23,13 @@ class HomeRecyclerAdapter(
         fun onDeleteClick(id: String)
     }
 
-    class DiaryHolder(val binding: ItemHomeRecyclerBinding) :
+    class DiaryHolder(val binding: HomeRecyclerRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryHolder {
         val binding =
-            ItemHomeRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            HomeRecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DiaryHolder(binding)
     }
 
