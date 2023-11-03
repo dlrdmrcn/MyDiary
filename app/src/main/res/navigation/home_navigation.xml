@@ -68,9 +68,6 @@
             android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_locationFragment"
-            app:destination="@id/locationFragment" />
-        <action
             android:id="@+id/action_profileFragment_to_themeFragment"
             app:destination="@id/themeFragment" />
     </fragment>
@@ -87,7 +84,44 @@
         android:id="@+id/photoDetailFragment"
         android:name="com.dilara.mydiary.view.PhotoDetailFragment"
         android:label="fragment_photo_detail"
-        tools:layout="@layout/fragment_photo_detail" />
+        tools:layout="@layout/fragment_photo_detail" >
+        <argument
+            android:name="date"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="content"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="downloadUrl"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="mood"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue='""' />
+        <argument
+            android:name="fromEdit"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_photoDetailFragment_to_diaryDetailsFragment"
+            app:destination="@id/diaryDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addDiaryFragment"
         android:name="com.dilara.mydiary.view.AddDiaryFragment"
@@ -145,11 +179,6 @@
         android:name="com.dilara.mydiary.view.ThemeFragment"
         android:label="fragment_theme"
         tools:layout="@layout/fragment_theme" />
-    <fragment
-        android:id="@+id/locationFragment"
-        android:name="com.dilara.mydiary.view.LocationFragment"
-        android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
     <fragment
         android:id="@+id/otherFragment"
         android:name="com.dilara.mydiary.view.OtherFragment"

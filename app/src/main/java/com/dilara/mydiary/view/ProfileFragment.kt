@@ -33,10 +33,6 @@ class ProfileFragment : BaseFragment() {
             Navigation.findNavController(it).navigate(action)
 
         }
-        binding?.myLocations?.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToLocationFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
         binding?.changeTheme?.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToThemeFragment()
             Navigation.findNavController(it).navigate(action)

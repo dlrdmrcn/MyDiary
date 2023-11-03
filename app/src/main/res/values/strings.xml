@@ -96,5 +96,9 @@
     <string name="new_password_repeat">Yeni şifre tekrarı</string>
     <string name="your_password_has_been_changed">Şifreniz değiştirildi</string>
     <string name="authentication_failed">Kimlik doğrulama başarısız oldu. Şifrenizi kontrol ederek tekrar deneyin.</string>
+    <string name="delete_photo_message">Fotoğrafı silmek günlüğü silmeyecektir. Günlüğü silmek fotoğrafın da silinmesine neden olur. Lütfen yapmak istediğiniz işlemi seçin.</string>
+    <string name="delete_photo">Fotoğrafı sil</string>
+    <string name="delete_photo_success">Fotoğraf başarıyla silindi</string>
+    <string name="delete_diary_success">Günlük başarıyla silindi</string>
 
 </resources>
