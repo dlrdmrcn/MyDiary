@@ -168,7 +168,14 @@
         android:id="@+id/calendarFragment"
         android:name="com.dilara.mydiary.view.CalendarFragment"
         android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_calendarFragment_to_addDiaryFragment"
+            app:destination="@id/addDiaryFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_showDiaryFragment"
+            app:destination="@id/showDiaryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.dilara.mydiary.view.ChangePasswordFragment"
@@ -230,5 +237,20 @@
         <argument
             android:name="id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/showDiaryFragment"
+        android:name="com.dilara.mydiary.view.ShowDiaryFragment"
+        android:label="fragment_show_diary"
+        tools:layout="@layout/fragment_show_diary" >
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_showDiaryFragment_to_diaryDetailsFragment"
+            app:destination="@id/diaryDetailsFragment" />
+        <action
+            android:id="@+id/action_showDiaryFragment_to_addDiaryFragment"
+            app:destination="@id/addDiaryFragment" />
     </fragment>
 </navigation>

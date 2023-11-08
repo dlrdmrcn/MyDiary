@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.navigation.Navigation
 import com.dilara.mydiary.MONTH
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentCalendarBinding
@@ -14,9 +15,6 @@ class CalendarFragment : BaseFragment() {
     private lateinit var binding: FragmentCalendarBinding
     private lateinit var datePicker: DatePicker
     private lateinit var today: Calendar
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +35,31 @@ class CalendarFragment : BaseFragment() {
         val year: Int = today.get(Calendar.YEAR)
 
         binding.todayDateText.setText("$day $month $year")
-    }
+        binding.showDiary.setOnClickListener {
+            val selectedDay = datePicker.dayOfMonth
+            val selectedMonth = MONTH.values().firstOrNull { it.value == datePicker.month }
+            val selectedYear = datePicker.year
+            val selectedDate = "$selectedDay $selectedMonth $selectedYear"
+            val action =
+                CalendarFragmentDirections.actionCalendarFragmentToShowDiaryFragment(selectedDate)
+            Navigation.findNavController(it).navigate(action)
+        }
 
+        binding.addDiary.setOnClickListener {
+            val selectedDay = datePicker.dayOfMonth
+            val selectedMonth = MONTH.values().firstOrNull { it.value == datePicker.month }
+            val selectedYear = datePicker.year
+            val selectedDate = "$selectedDay $selectedMonth $selectedYear"
+            val action = CalendarFragmentDirections.actionCalendarFragmentToAddDiaryFragment(
+                selectedDate,
+                null,
+                null,
+                null,
+                -1,
+                null,
+                true
+            )
+            Navigation.findNavController(it).navigate(action)
+        }
+    }
 }

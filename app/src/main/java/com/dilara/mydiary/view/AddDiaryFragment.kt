@@ -194,16 +194,16 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
 
                 val title = binding?.diaryTitle?.text.toString()
                 val content = binding?.writtenDiaryText?.text.toString()
+                val lastDate = binding?.selectedDateText?.text.toString()
 
                 if (title.isNotEmpty()) {
                     if (content.isNotEmpty()) {
                         val safeArgs: AddDiaryFragmentArgs by navArgs()
                         fromEdit = safeArgs.fromEdit
                         if (fromEdit) {
-                            safeArgs.id?.let { id ->
-                                viewModel.update(
-                                    id,
-                                    date,
+                            if (safeArgs.id.isNullOrEmpty()) {
+                                viewModel.upload(
+                                    lastDate,
                                     title,
                                     content,
                                     mood,
@@ -214,9 +214,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                             getString(R.string.diary_successful),
                                             getString(R.string.ok),
                                             positiveButtonCallBack = {
-                                                val action =
-                                                    AddDiaryFragmentDirections.actionAddDiaryFragmentToHomeFragment()
-                                                Navigation.findNavController(it).navigate(action)
+                                                requireActivity().supportFragmentManager.popBackStack()
                                             }
                                         )
                                     },
@@ -227,10 +225,41 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                             getString(R.string.ok)
                                         )
                                     })
+                            } else {
+                                safeArgs.id?.let { id ->
+                                    viewModel.update(
+                                        id,
+                                        lastDate,
+                                        title,
+                                        content,
+                                        mood,
+                                        selectedPictureUri,
+                                        onSuccess = {
+                                            (activity as? HomeActivity)?.showPopUp(
+                                                getString(R.string.app_name),
+                                                getString(R.string.diary_successful),
+                                                getString(R.string.ok),
+                                                positiveButtonCallBack = {
+                                                    val action =
+                                                        AddDiaryFragmentDirections.actionAddDiaryFragmentToHomeFragment()
+                                                    Navigation.findNavController(it)
+                                                        .navigate(action)
+                                                }
+                                            )
+                                        },
+                                        onFailure = {
+                                            (activity as? HomeActivity)?.showPopUp(
+                                                getString(R.string.app_name),
+                                                getString(R.string.try_again),
+                                                getString(R.string.ok)
+                                            )
+                                        })
+                                }
                             }
+
                         } else {
                             viewModel.upload(
-                                date,
+                                lastDate,
                                 title,
                                 content,
                                 mood,

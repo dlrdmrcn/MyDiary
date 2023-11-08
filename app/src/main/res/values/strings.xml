@@ -10,6 +10,7 @@
     <string name="login_whale_contentDescription">Balina Kuyruğu </string>
     <string name="enter">Giriş</string>
     <string name="back">Geri</string>
+    <string name="add">Ekle</string>
     <string name="login_options_whale_contentDescription">Balina</string>
     <string name="login">Giriş Yap</string>
     <string name="sign_up">Üye Ol</string>
@@ -100,5 +101,9 @@
     <string name="delete_photo">Fotoğrafı sil</string>
     <string name="delete_photo_success">Fotoğraf başarıyla silindi</string>
     <string name="delete_diary_success">Günlük başarıyla silindi</string>
+    <string name="show_diary">Günlükleri göster</string>
+    <string name="add_diary">Günlük ekle</string>
+    <string name="show_diary_warning">Henüz bugüne ait bir günlük eklememişsiniz.</string>
+    <string name="diary_content_example">Sevgili günlük, bugün çok yoğun geçti.</string>
 
 </resources>
