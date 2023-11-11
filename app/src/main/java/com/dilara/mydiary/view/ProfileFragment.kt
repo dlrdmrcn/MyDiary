@@ -10,9 +10,6 @@ import com.dilara.mydiary.databinding.FragmentProfileBinding
 
 class ProfileFragment : BaseFragment() {
     private var binding: FragmentProfileBinding? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -32,10 +29,6 @@ class ProfileFragment : BaseFragment() {
             val action = ProfileFragmentDirections.actionProfileFragmentToPhotosFragment()
             Navigation.findNavController(it).navigate(action)
 
-        }
-        binding?.changeTheme?.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToThemeFragment()
-            Navigation.findNavController(it).navigate(action)
         }
     }
 }

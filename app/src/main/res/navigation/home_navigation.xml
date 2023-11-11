@@ -67,9 +67,6 @@
         <action
             android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_themeFragment"
-            app:destination="@id/themeFragment" />
     </fragment>
     <fragment
         android:id="@+id/photosFragment"
@@ -181,11 +178,6 @@
         android:name="com.dilara.mydiary.view.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
-    <fragment
-        android:id="@+id/themeFragment"
-        android:name="com.dilara.mydiary.view.ThemeFragment"
-        android:label="fragment_theme"
-        tools:layout="@layout/fragment_theme" />
     <fragment
         android:id="@+id/otherFragment"
         android:name="com.dilara.mydiary.view.OtherFragment"

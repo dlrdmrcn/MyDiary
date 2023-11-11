@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.dilara.mydiary.EMOJI
 import com.dilara.mydiary.R
+import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentDiaryDetailsBinding
 import com.squareup.picasso.Picasso
 
-class DiaryDetailsFragment : Fragment() {
+class DiaryDetailsFragment : BaseFragment() {
     private var binding: FragmentDiaryDetailsBinding? = null
 
     override fun onCreateView(
