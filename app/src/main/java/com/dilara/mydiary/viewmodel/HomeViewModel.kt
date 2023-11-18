@@ -50,7 +50,8 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun getDataFromFirebase(firestoreError: () -> Unit?) {
-        firestore.collection("DiaryList").orderBy("date", Query.Direction.DESCENDING)
+        val user = auth.currentUser!!.uid
+        firestore.collection(user).document("Data").collection("DiaryList").orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 diaryArrayList = ArrayList()
                 if (error != null) {
@@ -80,7 +81,8 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     fun deleteDiary(id: String, onFailure: () -> Unit) {
         if (auth.currentUser != null) {
-            val docRef = firestore.collection("DiaryList").document(id)
+            val user = auth.currentUser!!.uid
+            val docRef = firestore.collection(user).document("Data").collection("DiaryList").document(id)
             docRef.delete()
                 .addOnSuccessListener {
                     getDataFromFirebase(onFailure)

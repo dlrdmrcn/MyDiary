@@ -79,7 +79,8 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpg"
         val reference = storage.reference
-        val imageReference = reference.child("images").child(imageName)
+        val user = auth.currentUser!!.uid
+        val imageReference = reference.child("images").child(user).child("Diary").child(imageName)
 
         val postMap = hashMapOf<String, Any>()
         postMap["title"] = title
@@ -89,7 +90,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
 
         if (selectedPicture != null) {
             imageReference.putFile(selectedPicture).addOnSuccessListener {
-                val uploadPictureReference = storage.reference.child("images").child(imageName)
+                val uploadPictureReference = storage.reference.child("images").child(user).child("Diary").child(imageName)
                 uploadPictureReference.downloadUrl.addOnSuccessListener {
                     val downloadUrl = it.toString()
                     postMap["downloadUrl"] = downloadUrl
@@ -109,7 +110,9 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
-        firestore.collection("DiaryList").add(postMap).addOnSuccessListener {
+        val user = auth.currentUser!!.uid
+        firestore.collection(user).document("Data").collection("DiaryList")
+            .add(postMap).addOnSuccessListener {
             onSuccess.invoke()
         }.addOnFailureListener {
             onFailure.invoke()
@@ -189,8 +192,8 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpg"
         val reference = storage.reference
-        val imageReference = reference.child("images").child(imageName)
-
+        val user = auth.currentUser!!.uid
+        val imageReference = reference.child("images").child(user).child(imageName)
 
         val postMap = hashMapOf<String, Any>()
         postMap["title"] = title
@@ -200,7 +203,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
 
         if (selectedPicture != null) {
             imageReference.putFile(selectedPicture).addOnSuccessListener {
-                val uploadPictureReference = storage.reference.child("images").child(imageName)
+                val uploadPictureReference = storage.reference.child("images").child(user).child(imageName)
                 uploadPictureReference.downloadUrl.addOnSuccessListener {
                     val downloadUrl = it.toString()
                     postMap["downloadUrl"] = downloadUrl
@@ -221,8 +224,8 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
-
-        firestore.collection("DiaryList").document(diaryId).update(postMap).addOnSuccessListener {
+        val user = auth.currentUser!!.uid
+        firestore.collection(user).document("Data").collection("DiaryList").document(diaryId).update(postMap).addOnSuccessListener {
             onSuccess.invoke()
         }.addOnFailureListener {
             onFailure.invoke()
@@ -233,17 +236,14 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         bitmapImage: Bitmap,
         context: Context,
         name: String
-    ): String? {
+    ): String {
         val cw = ContextWrapper(context)
-        // path to /data/data/yourapp/app_data/imageDir
         val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
-        // Create imageDir
         val imageName = "$name.jpg"
         val mypath = File(directory, imageName)
         var fos: FileOutputStream? = null
         try {
             fos = FileOutputStream(mypath)
-            // Use the compress method on the BitMap object to write image to the OutputStream
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
         } catch (e: Exception) {
             e.printStackTrace()
