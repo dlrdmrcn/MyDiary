@@ -33,6 +33,7 @@ import com.dilara.mydiary.model.Diary
 import com.dilara.mydiary.viewmodel.AddDiaryViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import java.io.File
 import java.util.Calendar
 import java.util.UUID
 
@@ -133,11 +134,17 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
             binding?.writtenDiaryText?.setText(diaryArgs?.content)
 
             if (!diaryArgs?.downloadUrl.isNullOrEmpty()) {
-                Picasso
-                    .get()
-                    .load(diaryArgs?.downloadUrl)
-                    .into(binding?.addPhoto)
-
+                if (viewModel.auth.uid != null){
+                    Picasso
+                        .get()
+                        .load(diaryArgs?.downloadUrl)
+                        .into(binding?.addPhoto)
+                } else {
+                    Picasso
+                        .get()
+                        .load(File(diaryArgs?.downloadUrl?: ""))
+                        .into(binding?.addPhoto)
+                }
             } else {
                 //No operation
             }

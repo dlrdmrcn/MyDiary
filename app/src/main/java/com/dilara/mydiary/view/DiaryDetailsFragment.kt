@@ -11,6 +11,7 @@ import com.dilara.mydiary.R
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentDiaryDetailsBinding
 import com.squareup.picasso.Picasso
+import java.io.File
 
 class DiaryDetailsFragment : BaseFragment() {
     private var binding: FragmentDiaryDetailsBinding? = null
@@ -43,10 +44,17 @@ class DiaryDetailsFragment : BaseFragment() {
             else -> R.drawable.emoji_cool
         }
 
-        Picasso
-            .get()
-            .load(downloadUrl)
-            .into(binding?.selecedPicture)
+        if (safeArgs.isLoggedInUser) {
+            Picasso
+                .get()
+                .load(downloadUrl)
+                .into(binding?.selecedPicture)
+        } else {
+            Picasso
+                .get()
+                .load(File(downloadUrl ?: ""))
+                .into(binding?.selecedPicture)
+        }
 
         binding?.date?.text = date
         binding?.title?.text = title

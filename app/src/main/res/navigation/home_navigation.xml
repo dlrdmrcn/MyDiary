@@ -229,6 +229,10 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <argument
+            android:name="isLoggedInUser"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/showDiaryFragment"

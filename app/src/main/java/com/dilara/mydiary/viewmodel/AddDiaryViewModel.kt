@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
-    private var auth: FirebaseAuth = Firebase.auth
+    var auth: FirebaseAuth = Firebase.auth
     private var firestore: FirebaseFirestore = Firebase.firestore
     private var storage: FirebaseStorage = Firebase.storage
     var popUpLiveData = MutableLiveData<Boolean>()
