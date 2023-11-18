@@ -105,5 +105,6 @@
     <string name="add_diary">Günlük ekle</string>
     <string name="show_diary_warning">Henüz bugüne ait bir günlük eklememişsiniz.</string>
     <string name="diary_content_example">Sevgili günlük, bugün çok yoğun geçti.</string>
+    <string name="diary_delete_success">Günlük başarıyla silindi.</string>
 
 </resources>

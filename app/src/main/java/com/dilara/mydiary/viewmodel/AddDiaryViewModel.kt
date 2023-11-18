@@ -54,7 +54,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         } else {
             context?.let {
                 diaryList?.let { diaryList ->
-                    roomUpload(
+                    saveToRoom(
                         context,
                         diaryList,
                         bitmap,
@@ -65,7 +65,6 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
             }
         }
     }
-
 
     fun firebaseUpload(
         date: String,
@@ -119,7 +118,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun roomUpload(
+    fun saveToRoom(
         context: Context,
         diary: Diary,
         bitmap: Bitmap? = null,
@@ -132,7 +131,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
             "Diaries"
         ).fallbackToDestructiveMigration().build()
         bitmap?.let {
-            diary.downloadUrl = saveToInternalStorage(it, context, diary.id)
+            diary.downloadUrl = saveImageToInternalStorage(it, context, diary.id)
         }
         diaryDao = diaryDb.diaryDao()
         var insertId: Long = -1
@@ -232,7 +231,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    private fun saveToInternalStorage(
+    private fun saveImageToInternalStorage(
         bitmapImage: Bitmap,
         context: Context,
         name: String

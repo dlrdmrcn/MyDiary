@@ -12,6 +12,7 @@ import com.dilara.mydiary.R
 import com.dilara.mydiary.adapter.HomeRecyclerAdapter
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentHomeBinding
+import com.dilara.mydiary.model.Diary
 import com.dilara.mydiary.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment(), HomeRecyclerAdapter.Listener {
@@ -72,8 +73,8 @@ class HomeFragment : BaseFragment(), HomeRecyclerAdapter.Listener {
         }
     }
 
-    override fun onDeleteClick(id: String) {
-        viewModel.deleteDiary(id, onFailure = {
+    override fun onDeleteClick(diary: Diary) {
+        viewModel.deleteDiary(diary, onFailure = {
             (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),
@@ -82,6 +83,6 @@ class HomeFragment : BaseFragment(), HomeRecyclerAdapter.Listener {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
             )
-        })
+        }, requireContext())
     }
 }

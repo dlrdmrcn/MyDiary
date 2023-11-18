@@ -1,8 +1,11 @@
 package com.dilara.mydiary.viewmodel
 
 import android.content.Context
+import android.content.ContextWrapper
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
+import com.dilara.mydiary.R
 import com.dilara.mydiary.base.BaseViewModel
 import com.dilara.mydiary.model.Diary
 import com.dilara.mydiary.roomdb.DiaryDatabase
@@ -16,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor() : BaseViewModel() {
@@ -39,19 +43,16 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         val diaryDao = diaryDb.diaryDao()
         CoroutineScope(Dispatchers.IO).launch {
             val flowList = diaryDao.getAll()
-//                val diaryArrayList = flowList.first()
-
             withContext(Dispatchers.Main) {
                 diaryLiveData.value = flowList as ArrayList<Diary>
             }
         }
-
-
     }
 
     fun getDataFromFirebase(firestoreError: () -> Unit?) {
         val user = auth.currentUser!!.uid
-        firestore.collection(user).document("Data").collection("DiaryList").orderBy("date", Query.Direction.DESCENDING)
+        firestore.collection(user).document("Data").collection("DiaryList")
+            .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 diaryArrayList = ArrayList()
                 if (error != null) {
@@ -79,21 +80,69 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             }
     }
 
-    fun deleteDiary(id: String, onFailure: () -> Unit) {
+    fun deleteDiary(diary: Diary, onFailure: () -> Unit, context: Context) {
         if (auth.currentUser != null) {
             val user = auth.currentUser!!.uid
-            val docRef = firestore.collection(user).document("Data").collection("DiaryList").document(id)
+            val docRef = firestore.collection(user).document("Data").collection("DiaryList")
+                .document(diary.id)
             docRef.delete()
                 .addOnSuccessListener {
                     getDataFromFirebase(onFailure)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.diary_delete_success),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 .addOnFailureListener {
                     onFailure.invoke()
                 }
         } else {
-            //delete diary with room
+            CoroutineScope(Dispatchers.IO).launch {
+                val diaryDb = Room.databaseBuilder(context, DiaryDatabase::class.java, "Diaries")
+                    .fallbackToDestructiveMigration().build()
+                val diaryDao = diaryDb.diaryDao()
+                if (diary.downloadUrl.isNullOrEmpty()){
+                    val deleteCount = diaryDao.delete(diary)
+                    withContext(Dispatchers.Main) {
+                        if (deleteCount > 0) {
+                            getDataFromRoom(context)
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.diary_delete_success),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            onFailure.invoke()
+                        }
+                    }
+                } else {
+                    val cw = ContextWrapper(context)
+                    val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+                    val dir: File = directory
+                    val file = File(dir, "${diary.id}.jpg")
+                    val deleted = file.delete()
+                    if (deleted) {
+                        val deleteCount = diaryDao.delete(diary)
+                        withContext(Dispatchers.Main) {
+                            if (deleteCount > 0) {
+                                getDataFromRoom(context)
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.diary_delete_success),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                onFailure.invoke()
+                            }
+                        }
+                    } else {
+                        withContext(Dispatchers.Main){
+                            onFailure.invoke()
+                        }
+                    }
+                }
+            }
         }
-
     }
-
 }

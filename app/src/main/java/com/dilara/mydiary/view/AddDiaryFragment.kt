@@ -272,7 +272,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                 content,
                                 title,
                                 mood.toLong(),
-                                selectedPictureUri.toString(),
+                                selectedPictureUri?.path?: "",
                                 uuid
                             )
                             viewModel.upload(

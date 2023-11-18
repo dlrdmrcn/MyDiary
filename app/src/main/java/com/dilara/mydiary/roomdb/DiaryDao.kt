@@ -16,7 +16,7 @@ interface DiaryDao {
     suspend fun insert(diary: Diary) : Long
 
     @Delete
-    suspend fun delete(diary: Diary)
+    suspend fun delete(diary: Diary) : Int
 
     @Update
     suspend fun update(diary: Diary)

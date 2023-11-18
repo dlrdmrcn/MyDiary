@@ -20,7 +20,7 @@ class HomeRecyclerAdapter(
 ) :
     RecyclerView.Adapter<HomeRecyclerAdapter.DiaryHolder>() {
     interface Listener {
-        fun onDeleteClick(id: String)
+        fun onDeleteClick(diary: Diary)
     }
 
     class DiaryHolder(val binding: HomeRecyclerRowBinding) :
@@ -56,7 +56,7 @@ class HomeRecyclerAdapter(
                 context.getString(R.string.delete_diary_message),
                 context.getString(R.string.delete),
                 positiveButtonCallBack = {
-                    listener.onDeleteClick(diaryList[position].id)
+                    listener.onDeleteClick(diaryList[position])
                 },
                 context.getString(R.string.cancel)
             )
