@@ -34,6 +34,7 @@ import com.dilara.mydiary.viewmodel.AddDiaryViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import java.util.Calendar
+import java.util.UUID
 
 class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
     private var binding: FragmentAddDiaryBinding? = null
@@ -202,7 +203,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                         fromEdit = safeArgs.fromEdit
                         if (fromEdit) {
                             if (safeArgs.id.isNullOrEmpty()) {
-                                viewModel.upload(
+                                viewModel.firebaseUpload(
                                     lastDate,
                                     title,
                                     content,
@@ -227,7 +228,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                     })
                             } else {
                                 safeArgs.id?.let { id ->
-                                    viewModel.update(
+                                    viewModel.firebaseUpdate(
                                         id,
                                         lastDate,
                                         title,
@@ -258,6 +259,15 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                             }
 
                         } else {
+                            val uuid = UUID.randomUUID().toString()
+                            val diaryList = Diary(
+                                lastDate,
+                                content,
+                                title,
+                                mood.toLong(),
+                                selectedPictureUri.toString(),
+                                uuid
+                            )
                             viewModel.upload(
                                 lastDate,
                                 title,
@@ -280,7 +290,9 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                         getString(R.string.try_again),
                                         getString(R.string.ok)
                                     )
-                                })
+                                }, requireActivity().applicationContext,
+                                diaryList, selectedBitmap
+                            )
                         }
 
                     } else {
@@ -437,5 +449,6 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
         return Bitmap.createScaledBitmap(image, width, heigth, true)
 
     }
+
 
 }

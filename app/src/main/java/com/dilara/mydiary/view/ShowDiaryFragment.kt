@@ -39,7 +39,7 @@ class ShowDiaryFragment : BaseFragment() {
         binding?.date?.text = date
 
         initObservers(date)
-        viewModel.getData(firestoreError = {
+        viewModel.getDataFromFirebase(firestoreError = {
             (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),

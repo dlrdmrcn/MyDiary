@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment(), HomeRecyclerAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObservers()
-        viewModel.getData(firestoreError = {
+        viewModel.getData(requireContext(), firestoreError = {
             (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),
