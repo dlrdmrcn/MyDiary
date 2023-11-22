@@ -134,7 +134,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
             binding?.writtenDiaryText?.setText(diaryArgs?.content)
 
             if (!diaryArgs?.downloadUrl.isNullOrEmpty()) {
-                if (viewModel.auth.uid != null){
+                if (viewModel.auth.uid != null) {
                     Picasso
                         .get()
                         .load(diaryArgs?.downloadUrl)
@@ -142,7 +142,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                 } else {
                     Picasso
                         .get()
-                        .load(File(diaryArgs?.downloadUrl?: ""))
+                        .load(File(diaryArgs?.downloadUrl ?: ""))
                         .into(binding?.addPhoto)
                 }
             } else {
@@ -235,7 +235,16 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                     })
                             } else {
                                 safeArgs.id?.let { id ->
-                                    viewModel.firebaseUpdate(
+                                    val diary = Diary(
+                                        lastDate,
+                                        content,
+                                        title,
+                                        mood.toLong(),
+                                        selectedPictureUri?.path ?: "",
+                                        id
+                                    )
+                                    diary.roomId = safeArgs.roomId
+                                    viewModel.update(requireContext(),
                                         id,
                                         lastDate,
                                         title,
@@ -261,7 +270,10 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                                 getString(R.string.try_again),
                                                 getString(R.string.ok)
                                             )
-                                        })
+                                        },
+                                        diary,
+                                        selectedBitmap
+                                    )
                                 }
                             }
 
@@ -272,7 +284,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                 content,
                                 title,
                                 mood.toLong(),
-                                selectedPictureUri?.path?: "",
+                                selectedPictureUri?.path ?: "",
                                 uuid
                             )
                             viewModel.upload(

@@ -89,7 +89,8 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
 
         if (selectedPicture != null) {
             imageReference.putFile(selectedPicture).addOnSuccessListener {
-                val uploadPictureReference = storage.reference.child("images").child(user).child("Diary").child(imageName)
+                val uploadPictureReference =
+                    storage.reference.child("images").child(user).child("Diary").child(imageName)
                 uploadPictureReference.downloadUrl.addOnSuccessListener {
                     val downloadUrl = it.toString()
                     postMap["downloadUrl"] = downloadUrl
@@ -112,10 +113,10 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         val user = auth.currentUser!!.uid
         firestore.collection(user).document("Data").collection("DiaryList")
             .add(postMap).addOnSuccessListener {
-            onSuccess.invoke()
-        }.addOnFailureListener {
-            onFailure.invoke()
-        }
+                onSuccess.invoke()
+            }.addOnFailureListener {
+                onFailure.invoke()
+            }
     }
 
     fun saveToRoom(
@@ -134,7 +135,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
             diary.downloadUrl = saveImageToInternalStorage(it, context, diary.id)
         }
         diaryDao = diaryDb.diaryDao()
-        var insertId: Long = -1
+        var insertId: Long
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 insertId = diaryDao.insert(diary)
@@ -153,6 +154,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun update(
+        context: Context,
         diaryId: String,
         date: String,
         title: String,
@@ -160,7 +162,9 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         mood: Int,
         selectedPicture: Uri? = null,
         onSuccess: () -> Unit,
-        onFailure: () -> Unit
+        onFailure: () -> Unit,
+        diary: Diary,
+        bitmap: Bitmap? = null
     ) {
         if (auth.currentUser != null) {
             firebaseUpdate(
@@ -174,7 +178,7 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
                 onFailure
             )
         } else {
-            //update diary with room
+            roomUpdate(context, diary, bitmap, onSuccess, onFailure)
         }
     }
 
@@ -202,7 +206,8 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
 
         if (selectedPicture != null) {
             imageReference.putFile(selectedPicture).addOnSuccessListener {
-                val uploadPictureReference = storage.reference.child("images").child(user).child(imageName)
+                val uploadPictureReference =
+                    storage.reference.child("images").child(user).child(imageName)
                 uploadPictureReference.downloadUrl.addOnSuccessListener {
                     val downloadUrl = it.toString()
                     postMap["downloadUrl"] = downloadUrl
@@ -224,11 +229,12 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
         onFailure: () -> Unit
     ) {
         val user = auth.currentUser!!.uid
-        firestore.collection(user).document("Data").collection("DiaryList").document(diaryId).update(postMap).addOnSuccessListener {
-            onSuccess.invoke()
-        }.addOnFailureListener {
-            onFailure.invoke()
-        }
+        firestore.collection(user).document("Data").collection("DiaryList").document(diaryId)
+            .update(postMap).addOnSuccessListener {
+                onSuccess.invoke()
+            }.addOnFailureListener {
+                onFailure.invoke()
+            }
     }
 
     private fun saveImageToInternalStorage(
@@ -254,5 +260,39 @@ class AddDiaryViewModel @Inject constructor() : BaseViewModel() {
             }
         }
         return directory.absolutePath + "/$name.jpg"
+    }
+
+    fun roomUpdate(
+        context: Context,
+        diary: Diary,
+        bitmap: Bitmap? = null,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        diaryDb = Room.databaseBuilder(
+            context,
+            DiaryDatabase::class.java,
+            "Diaries"
+        ).fallbackToDestructiveMigration().build()
+        bitmap?.let {
+            diary.downloadUrl = saveImageToInternalStorage(it, context, diary.id)
+        }
+        diaryDao = diaryDb.diaryDao()
+        var updatedCount: Int
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                updatedCount = diaryDao.update(diary)
+                withContext(Dispatchers.Main) {
+                    if (updatedCount > 0) {
+                        onSuccess.invoke()
+                    } else {
+                        onFailure.invoke()
+                    }
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            onFailure.invoke()
+        }
     }
 }

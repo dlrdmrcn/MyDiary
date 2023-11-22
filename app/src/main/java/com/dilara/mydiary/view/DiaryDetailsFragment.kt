@@ -69,7 +69,8 @@ class DiaryDetailsFragment : BaseFragment() {
                     downloadUrl,
                     mood,
                     id,
-                    true
+                    true,
+                    roomId = safeArgs.roomId
                 )
             Navigation.findNavController(view).navigate(action)
         }

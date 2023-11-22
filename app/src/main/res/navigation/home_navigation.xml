@@ -160,6 +160,10 @@
         <action
             android:id="@+id/action_addDiaryFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="roomId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -233,6 +237,10 @@
             android:name="isLoggedInUser"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="roomId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/showDiaryFragment"
