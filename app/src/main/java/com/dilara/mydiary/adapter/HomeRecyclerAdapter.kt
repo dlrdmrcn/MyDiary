@@ -16,7 +16,8 @@ class HomeRecyclerAdapter(
     private val diaryList: ArrayList<Diary>,
     var activity: Activity,
     var context: Context,
-    val listener: Listener
+    val listener: Listener,
+    val isLoggedInUser: Boolean
 ) :
     RecyclerView.Adapter<HomeRecyclerAdapter.DiaryHolder>() {
     interface Listener {
@@ -47,7 +48,8 @@ class HomeRecyclerAdapter(
                 diaryList[position].downloadUrl,
                 diaryList[position].mood,
                 diaryList[position].id,
-                roomId = diaryList[position].roomId
+                roomId = diaryList[position].roomId,
+                isLoggedInUser = isLoggedInUser
             )
             Navigation.findNavController(view).navigate(action)
         }

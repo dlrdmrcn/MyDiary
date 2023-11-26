@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment(), HomeRecyclerAdapter.Listener {
     private fun initObservers() {
         viewModel.diaryLiveData.observe(requireActivity()) {
             val emojiCountList = ArrayList<Int>()
-            homeAdapter = HomeRecyclerAdapter(it, requireActivity(), requireContext(), this)
+            homeAdapter = HomeRecyclerAdapter(it, requireActivity(), requireContext(), this, viewModel.activeFirebaseUser() )
             binding?.myDiariesRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
             binding?.myDiariesRecyclerView?.adapter = homeAdapter
             binding?.totalNumberDiary?.text = viewModel.diaryLiveData.value?.size.toString()

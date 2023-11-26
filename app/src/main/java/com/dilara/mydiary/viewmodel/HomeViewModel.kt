@@ -145,4 +145,11 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             }
         }
     }
+
+    fun activeFirebaseUser(): Boolean {
+        if (auth.currentUser == null) {
+            return false
+        }
+        return true
+    }
 }
