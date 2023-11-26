@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dilara.mydiary.R
 import com.dilara.mydiary.adapter.PhotosRecyclerViewAdapter
@@ -46,7 +47,9 @@ class PhotosFragment : BaseFragment() {
 
     private fun initObservers() {
         viewModel.diaryLiveData.observe(requireActivity()) {
-            photosAdapter = PhotosRecyclerViewAdapter(it)
+            val safeArgs: PhotosFragmentArgs by navArgs()
+            val diaryListWithPhoto = it.filter { !it.downloadUrl.isNullOrEmpty() }
+            photosAdapter = PhotosRecyclerViewAdapter(diaryListWithPhoto, safeArgs.activeFirebaseUser)
             binding?.myPhotosRecyclerView?.layoutManager = GridLayoutManager(requireContext(), 3)
             binding?.myPhotosRecyclerView?.adapter = photosAdapter
 

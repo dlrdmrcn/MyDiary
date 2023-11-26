@@ -76,6 +76,10 @@
         <action
             android:id="@+id/action_photosFragment_to_photoDetailFragment"
             app:destination="@id/photoDetailFragment" />
+        <argument
+            android:name="activeFirebaseUser"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/photoDetailFragment"

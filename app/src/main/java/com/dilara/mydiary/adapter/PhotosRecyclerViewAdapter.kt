@@ -8,8 +8,9 @@ import com.dilara.mydiary.databinding.PhotosRecyclerRowBinding
 import com.dilara.mydiary.model.Diary
 import com.dilara.mydiary.view.PhotosFragmentDirections
 import com.squareup.picasso.Picasso
+import java.io.File
 
-class PhotosRecyclerViewAdapter(private val diaryList: ArrayList<Diary>) :
+class PhotosRecyclerViewAdapter(private val diaryList: List<Diary>, private val user: Boolean) :
     RecyclerView.Adapter<PhotosRecyclerViewAdapter.PhotosHolder>() {
 
     class PhotosHolder(val binding: PhotosRecyclerRowBinding) :
@@ -28,10 +29,17 @@ class PhotosRecyclerViewAdapter(private val diaryList: ArrayList<Diary>) :
     }
 
     override fun onBindViewHolder(holder: PhotosHolder, position: Int) {
-        Picasso
-            .get()
-            .load(diaryList[position].downloadUrl)
-            .into(holder.binding.myPhoto)
+        if (user) {
+            Picasso
+                .get()
+                .load(diaryList[position].downloadUrl)
+                .into(holder.binding.myPhoto)
+        } else {
+            Picasso
+                .get()
+                .load(File(diaryList[position].downloadUrl ?: ""))
+                .into(holder.binding.myPhoto)
+        }
 
         holder.binding.myPhoto.setOnClickListener {
             val action = PhotosFragmentDirections.actionPhotosFragmentToPhotoDetailFragment(
