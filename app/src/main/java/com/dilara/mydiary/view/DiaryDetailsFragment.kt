@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
-import com.dilara.mydiary.EMOJI
+import com.dilara.mydiary.enums.EMOJI
 import com.dilara.mydiary.R
 import com.dilara.mydiary.base.BaseFragment
 import com.dilara.mydiary.databinding.FragmentDiaryDetailsBinding

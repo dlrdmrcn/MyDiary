@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dilara.mydiary.EMOJI
+import com.dilara.mydiary.enums.EMOJI
 import com.dilara.mydiary.R
 import com.dilara.mydiary.adapter.HomeRecyclerAdapter
 import com.dilara.mydiary.base.BaseFragment

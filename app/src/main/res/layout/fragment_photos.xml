@@ -30,14 +30,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_photos_textView" />
 
-    <ImageButton
-        android:id="@+id/add_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:contentDescription="@string/add_photo_contentDescription"
-        app:layout_constraintBottom_toTopOf="@+id/my_photos_recyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/my_photos_recyclerView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_add_photo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

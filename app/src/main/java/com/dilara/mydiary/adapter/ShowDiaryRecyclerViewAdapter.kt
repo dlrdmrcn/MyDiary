@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.dilara.mydiary.EMOJI
+import com.dilara.mydiary.enums.EMOJI
 import com.dilara.mydiary.R
 import com.dilara.mydiary.databinding.ShowDiaryRecyclerRowBinding
 import com.dilara.mydiary.model.Diary

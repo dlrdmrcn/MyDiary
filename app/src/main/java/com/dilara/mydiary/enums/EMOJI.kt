@@ -1,4 +1,4 @@
-package com.dilara.mydiary
+package com.dilara.mydiary.enums
 
 enum class EMOJI(val emoji: Int) {
     VERY_HAPPY(0),

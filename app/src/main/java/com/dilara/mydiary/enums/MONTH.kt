@@ -1,4 +1,4 @@
-package com.dilara.mydiary
+package com.dilara.mydiary.enums
 
 enum class MONTH(val value: Int) {
     Ocak(0),
