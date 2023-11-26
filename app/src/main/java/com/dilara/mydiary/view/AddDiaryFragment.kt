@@ -23,8 +23,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dilara.mydiary.EMOJI
-import com.dilara.mydiary.MONTH
+import com.dilara.mydiary.enums.EMOJI
+import com.dilara.mydiary.enums.MONTH
 import com.dilara.mydiary.R
 import com.dilara.mydiary.adapter.EmojiRecyclerViewAdapter
 import com.dilara.mydiary.base.BaseFragment
@@ -210,7 +210,16 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                         fromEdit = safeArgs.fromEdit
                         if (fromEdit) {
                             if (safeArgs.id.isNullOrEmpty()) {
-                                viewModel.firebaseUpload(
+                                val uuid = UUID.randomUUID().toString()
+                                val diaryList = Diary(
+                                    lastDate,
+                                    content,
+                                    title,
+                                    mood.toLong(),
+                                    selectedPictureUri?.path ?: "",
+                                    uuid
+                                )
+                                viewModel.upload(
                                     lastDate,
                                     title,
                                     content,
@@ -232,7 +241,9 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                             getString(R.string.try_again),
                                             getString(R.string.ok)
                                         )
-                                    })
+                                    }, requireActivity().applicationContext,
+                                    diaryList, selectedBitmap
+                                )
                             } else {
                                 safeArgs.id?.let { id ->
                                     val diary = Diary(
@@ -244,7 +255,8 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                                         id
                                     )
                                     diary.roomId = safeArgs.roomId
-                                    viewModel.update(requireContext(),
+                                    viewModel.update(
+                                        requireContext(),
                                         id,
                                         lastDate,
                                         title,
@@ -422,6 +434,7 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
     private fun navigateToGallery() {
         val intentToGallery =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intentToGallery.setType("image/jpeg")
         activityResultLauncher.launch(intentToGallery)
     }
 
