@@ -39,7 +39,7 @@ class ShowDiaryFragment : BaseFragment() {
         binding?.date?.text = date
 
         initObservers(date)
-        viewModel.getDataFromFirebase(firestoreError = {
+        viewModel.getData(requireContext(), firestoreError = {
             (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),
@@ -47,7 +47,6 @@ class ShowDiaryFragment : BaseFragment() {
                 positiveButtonCallBack = {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
-
             )
         })
 

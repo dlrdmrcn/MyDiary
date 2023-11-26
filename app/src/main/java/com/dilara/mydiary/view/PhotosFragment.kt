@@ -32,7 +32,7 @@ class PhotosFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initObservers()
-        viewModel.getDataFromFirebase(firestoreError = {
+        viewModel.getData(requireContext(), firestoreError = {
             (activity as? HomeActivity)?.showPopUp(
                 getString(R.string.warning),
                 getString(R.string.try_again),
