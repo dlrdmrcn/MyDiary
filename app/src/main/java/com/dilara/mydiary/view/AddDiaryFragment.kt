@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -84,20 +85,20 @@ class AddDiaryFragment : BaseFragment(), EmojiRecyclerViewAdapter.Listener {
                 if (result.resultCode == RESULT_OK) {
                     val intentFromResult = result.data
                     if (intentFromResult != null) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(
-                            requireActivity().contentResolver,
-                            intentFromResult.data
-                        )
-                        selectedBitmap = makeSmallerBitmap(bitmap, 1000)
-                        selectedPictureUri = Uri.parse(
-                            MediaStore.Images.Media.insertImage(
-                                requireActivity().contentResolver,
-                                selectedBitmap,
-                                "a",
-                                null
-                            )
-                        )
-                        binding?.addPhoto?.setImageBitmap(bitmap)
+                        selectedPictureUri = intentFromResult.data
+                        if(selectedPictureUri != null){
+                            if (Build.VERSION.SDK_INT >= 28){
+                                val source = ImageDecoder.createSource(requireActivity().contentResolver, selectedPictureUri!!)
+                                val bitmap = ImageDecoder.decodeBitmap(source)
+                                selectedBitmap = makeSmallerBitmap(bitmap, 1000)
+                                binding?.addPhoto?.setImageBitmap(bitmap)
+                            }else {
+                                val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,
+                                    selectedPictureUri)
+                                selectedBitmap = makeSmallerBitmap(bitmap, 1000)
+                                binding?.addPhoto?.setImageBitmap(bitmap)
+                            }
+                        }
                     }
                 }
             }
